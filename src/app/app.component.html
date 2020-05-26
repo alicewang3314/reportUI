@@ -1,0 +1,53 @@
+<div>
+
+<mat-toolbar color="primary">
+  <div> <a [routerLink]="[ '/home' ]">
+      <div>Captor Dashboard</div>
+    </a>
+  </div>
+
+  <!-- <div>
+    <div [matMenuTriggerFor]="menu"> TFS Reports
+      <mat-icon>arrow_drop_down</mat-icon>
+    </div>
+    <mat-menu #menu="matMenu">
+      <a [routerLink]="[ '/changesetReport' ]"><button mat-menu-item>TFS Changesets Report</button></a>
+      <a [routerLink]="[ '/bugReport' ]"><button mat-menu-item>TFS Bugs Report</button></a>
+      <a [routerLink]="[ '/bugTagReport' ]"><button mat-menu-item>Bugs Tag Report</button></a>
+    </mat-menu>
+  </div>
+
+  <div>
+    <div [matMenuTriggerFor]="menu2"> Error Logs Dashboard
+      <mat-icon>arrow_drop_down</mat-icon>
+    </div>
+    <mat-menu #menu2="matMenu">
+      <a [routerLink]="[ '/logDashboard' ]"><button mat-menu-item>Error Logs Dashboard</button></a>
+      <a [routerLink]="[ '/liveErrors' ]"><button mat-menu-item>Live Error Logs</button></a>
+    </mat-menu>
+  </div> -->
+
+  <div class="menuSettings">
+    <div [matMenuTriggerFor]="menu3">
+      <mat-icon>settings</mat-icon>
+    </div>
+    <mat-menu #menu3="matMenu">
+      <div>
+        <mat-slide-toggle (toggleChange)="toggleScreen()">
+          Full screen width
+        </mat-slide-toggle>
+      </div>
+      <a [routerLink]="[ '/tfsDashSettings' ]"><button mat-menu-item>TFS Teams Settings</button></a>
+    </mat-menu>
+  </div>
+
+</mat-toolbar>
+
+<div class="baseMaster">
+  <div [ngClass]="mainCssClass">
+    <loader></loader>
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+</div>

@@ -1,0 +1,190 @@
+<p></p>
+<div class="spinner" *ngIf="showSpinner">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="mainReport">
+  <a [routerLink]="[ '/changesetReport' ]">
+    <div><button mat-raised-button>Changesets Report</button></div>
+  </a>
+  <a [routerLink]="[ '/bugReport' ]">
+    <div><button mat-raised-button>Bugs Report</button></div>
+  </a><a [routerLink]="[ '/bugTagReport' ]">
+    <div><button mat-raised-button>Bug Tag Report</button></div>
+  </a>
+</div>
+<mat-tab-group mat-align-tabs="center" [selectedIndex]="selectedTabIndex.value"
+  (selectedTabChange)="onTabChange($event.index)">
+
+  <mat-tab label="Current Iteration">
+    <div *ngIf="iterationReport" class="dashboardButtons">
+      <button mat-raised-button color="primary" (click)="refresh()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-raised-button color="primary" (click)="GoToResourceStats()">
+        View By Resource
+      </button>
+    </div>
+
+    <div class="main">
+
+      <ng-container *ngIf="iterationReport">
+        <div class="items" *ngFor="let team of iterationReport.teams">
+          <mat-card *ngIf="team.iteration && team.currentTasks">
+            <mat-card-header>
+              <mat-card-title>{{ team.title }}</mat-card-title>
+              <mat-card-subtitle *ngIf="team.iteration">
+                {{ team.iteration.name }} ({{
+                  team.iteration.fromDate | date: "shortDate"
+                }}
+                - {{ team.iteration.toDate | date: "shortDate" }})
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="statsLayout">
+                <div class="statsCol">
+                  <div>
+                    <span class="statsLabel">Active Tasks </span>&nbsp;
+                    <span>{{ team.currentStats.activeTasks }}</span>
+                  </div>
+                  <div>
+                    <span class="statsLabel">New Tasks </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span>{{ team.currentStats.newTasks }}</span>
+                  </div>
+                </div>
+                <div class="statsCol">
+                  <div>
+                    <span class="statsLabel">Original Estimate </span>&nbsp;
+                    <span class="statsOrigValue">{{
+                      team.currentStats.originalEstimate | number: "1.1-2"
+                    }}</span>
+                  </div>
+                  <div>
+                    <span class="statsLabel">Completed Work </span>&nbsp;&nbsp;
+                    <span class="statsComplValue">{{
+                      team.currentStats.completedWork | number: "1.1-2"
+                    }}</span>
+                  </div>
+                  <div>
+                    <span class="statsLabel">Remaining Work </span>&nbsp;&nbsp;
+                    <span class="statsRemValue">{{
+                      team.currentStats.remainingWork | number: "1.1-2"
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+            <!-- <mat-dialog-content
+              >This will delete all elements that are currently on this page and
+              cannot be undone.</mat-dialog-content
+            > -->
+
+            <mat-card-actions>
+              <button mat-stroked-button (click)="getReport(team.title)">
+                Details
+              </button>
+            </mat-card-actions>
+          </mat-card>
+
+          <mat-card class="no_data" *ngIf="!(team.iteration && team.currentTasks)">
+            <mat-card-header>
+              <mat-card-title>{{ team.title }}</mat-card-title>
+              <mat-card-subtitle>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="statsLayout">
+                No data
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!iterationReport">
+        <div class="addMessage"> Please add teams using TFS Team settings</div>
+      </ng-container>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="All Pending">
+    <div *ngIf="allPendingReport" class="dashboardButtons">
+      <button mat-raised-button color="primary" (click)="refresh()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-raised-button color="primary" (click)="GoToPendingResourceStats()">
+        View By Resource
+      </button>
+    </div>
+    <div class="main">
+      <ng-container *ngIf="allPendingReport">
+        <div class="items" *ngFor="let team of allPendingReport.teams">
+
+          <mat-card *ngIf="team.currentStats && team.currentTasks">
+            <mat-card-header>
+              <mat-card-title>{{ team.title }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="statsLayout">
+                <div class="statsCol">
+                  <div>
+                    <span class="statsLabel">Active Tasks </span>&nbsp;
+                    <span>{{ team.currentStats.activeTasks }}</span>
+                  </div>
+                  <div>
+                    <span class="statsLabel">New Tasks </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span>{{ team.currentStats.newTasks }}</span>
+                  </div>
+                </div>
+                <div class="statsCol">
+                  <div>
+                    <span class="statsLabel">Original Estimate </span>&nbsp;
+                    <span class="statsOrigValue">{{
+                      team.currentStats.originalEstimate | number: "1.1-2"
+                    }}</span>
+                  </div>
+                  <div>
+                    <span class="statsLabel">Completed Work </span>&nbsp;&nbsp;
+                    <span class="statsComplValue">{{
+                      team.currentStats.completedWork | number: "1.1-2"
+                    }}</span>
+                  </div>
+                  <div>
+                    <span class="statsLabel">Remaining Work </span>&nbsp;&nbsp;
+                    <span class="statsRemValue">{{
+                      team.currentStats.remainingWork | number: "1.1-2"
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-stroked-button (click)="getPendingReport(team.title)">
+                Details
+              </button>
+            </mat-card-actions>
+          </mat-card>
+
+          <mat-card class="no_data_pending" *ngIf="!(team.currentStats && team.currentTasks)">
+            <mat-card-header>
+              <mat-card-title>{{ team.title }}</mat-card-title>
+              <mat-card-subtitle>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="statsLayout">
+                No data
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+        </div>
+      </ng-container>
+    </div>
+  </mat-tab>
+
+</mat-tab-group>
+<!-- <mat-card-actions>
+  <button mat-stroked-button (click)="BacktoList()">
+    Back to List
+  </button>
+</mat-card-actions> -->

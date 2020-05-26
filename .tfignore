@@ -1,0 +1,14 @@
+node_modules
+dist
+# Ignore NuGet Packages
+*.nupkg
+
+# Ignore the NuGet packages folder in the root of the repository. If needed, prefix 'packages'
+# with additional folder names if it's not in the same folder as .tfignore.   
+packages
+
+# Omit temporary files
+project.lock.json
+project.assets.json
+package-lock.json
+*.nuget.props

@@ -1,0 +1,300 @@
+<mat-tab-group mat-align-tabs="center" [selectedIndex]="selectedTabIndex.value"
+  (selectedTabChange)="onTabChange($event.index)">
+  <div class="tab-content">
+    <mat-tab label="Application Bugs">
+      <div class="buttonPlaceholder">
+        <button mat-raised-button color="primary" (click)="clearBugsDashboard()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+      <div class="main">
+
+        <mat-card class="custom-mat-card">
+          <mat-card-header>
+            <mat-card-title class="card-title">Total Bugs</mat-card-title>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <mat-grid-list rows="2" cols="2" rowHeight="60px">
+              <mat-grid-tile class="mat-total" colspan="2">
+                <h4>{{totalBugs.total}}</h4>
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-grid-resolved">{{totalBugs.resolved}}<br />
+                Resolved
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-grid-active">{{totalBugs.active}}<br />Active</mat-grid-tile>
+
+            </mat-grid-list>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="custom-mat-card">
+          <mat-card-header>
+            <mat-card-title class="card-title">1 - Critical Bugs</mat-card-title>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <mat-grid-list rows="2" cols="2" rowHeight="60px">
+              <mat-grid-tile class="mat-total" colspan="2">
+                <h4>{{criticalBugs.total}}</h4>
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-grid-resolved">{{criticalBugs.resolved}}<br />
+                Resolved
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-grid-active">{{criticalBugs.active}}<br />Active</mat-grid-tile>
+
+            </mat-grid-list>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="custom-mat-card">
+          <mat-card-header>
+            <mat-card-title class="card-title">2 - High Bugs</mat-card-title>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <mat-grid-list rows="2" cols="2" rowHeight="60px">
+              <mat-grid-tile class="mat-total" colspan="2">
+                <h4>{{highBugs.total}}</h4>
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-grid-resolved">{{highBugs.resolved}}<br />
+                Resolved
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-grid-active">{{highBugs.active}}<br />Active</mat-grid-tile>
+
+            </mat-grid-list>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="custom-mat-card large">
+          <mat-card-header>
+            <mat-card-title class="card-title">Bugs Breakdown</mat-card-title>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+
+            <div class="chartContainer">
+              <!-- <ngx-charts-line-chart #chart2
+              [scheme]="'cool'"
+              [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [xAxisLabel]="xAxisLabel"
+              [yAxisLabel]="yAxisLabel"
+              [results]="multi"
+              [gradient]="gradient"
+              (select)="openDialogBugsApp($event)"
+            >
+</ngx-charts-line-chart> -->
+
+              <ngx-charts-bar-vertical-stacked #chart2 [view]="[850, 400]" [scheme]="stackColorScheme"
+                [results]="bugStackCnt" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [barPadding]="35"
+                [legend]="showLegend" [showXAxisLabel]="false" [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [maxXAxisTickLength]="10">
+              </ngx-charts-bar-vertical-stacked>
+
+
+              <!-- <ngx-charts-bar-horizontal #chart2 [scheme]="'cool'" [results]="bugGrpCnt" [gradient]="gradient"
+              [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showDataLabel]="true"
+              [showGridLines]="showGridLines" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+              [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" (select)="openDialogBugsApp($event)">
+            </ngx-charts-bar-horizontal> -->
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="custom-mat-card card-hidden" style="padding: 0px;">
+          <mat-card class="custom-mat-card sub-mat-card">
+            <mat-card-header>
+              <mat-card-title class="card-title">3 - Medium Bugs</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+              <mat-grid-list rows="2" cols="2" rowHeight="60px">
+                <mat-grid-tile class="mat-total" colspan="2">
+                  <h4>{{mediumBugs.total}}</h4>
+                </mat-grid-tile>
+                <mat-grid-tile class="mat-grid-resolved">{{mediumBugs.resolved}}<br />
+                  Resolved
+                </mat-grid-tile>
+                <mat-grid-tile class="mat-grid-active">{{mediumBugs.active}}<br />Active</mat-grid-tile>
+
+              </mat-grid-list>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="custom-mat-card sub-mat-card">
+            <mat-card-header>
+              <mat-card-title class="card-title">4 - Low Bugs</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+              <mat-grid-list rows="2" cols="2" rowHeight="60px">
+                <mat-grid-tile class="mat-total" colspan="2">
+                  <h4>{{lowBugs.total}}</h4>
+                </mat-grid-tile>
+                <mat-grid-tile class="mat-grid-resolved">{{lowBugs.resolved}}<br />
+                  Resolved
+                </mat-grid-tile>
+                <mat-grid-tile class="mat-grid-active">{{lowBugs.active}}<br />Active</mat-grid-tile>
+
+              </mat-grid-list>
+            </mat-card-content>
+          </mat-card>
+
+        </mat-card>
+        <mat-card class="custom-mat-card medium">
+          <mat-card-header>
+            <mat-card-title class="card-title">Total Active Bugs</mat-card-title>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <div class="chartContainer1">
+              <ngx-charts-pie-chart #chart1 [tooltipDisabled]="false" [view]="[620,400]" [scheme]="donutColorScheme"
+                [results]="donutData" arcWidth="0.6" doughnut="true" (select)="reloadBugDetails($event)"
+                [legend]="false" [legendPosition]="'right'" [labels]="false">
+              </ngx-charts-pie-chart>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="custom-mat-card medium">
+          <mat-card-header>
+            <mat-card-title class="card-title">Bugs Details</mat-card-title>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <!-- <div class="fieldContainer"> -->
+            <div class="field">
+              <!-- <mat-form-field>
+                <mat-label>Severity</mat-label>
+                <select [(value)]="selectedSeverity">
+                  <option selected value="all">All</option>
+                  <option value="critical">1 - Critical Bugs</option>
+                  <option value="high">2 - High Bugs</option>
+                  <option value="medium">3 - Medium Bugs</option>
+                  <option value="low">4 - Low Bugs</option>
+                </select>
+              </mat-form-field> -->
+              <mat-form-field>
+                <mat-label>Severity</mat-label>
+                <mat-select [(value)]="selectedSeverity" (selectionChange)="onBugDropdownChange($event)">
+                  <mat-option value="all">All</mat-option>
+                  <mat-option value="1 - Critical">1 - Critical Bugs</mat-option>
+                  <mat-option value="2 - High">2 - High Bugs</mat-option>
+                  <mat-option value="3 - Medium">3 - Medium Bugs</mat-option>
+                  <mat-option value="4 - Low">4 - Low Bugs</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+              <!-- <mat-form-field>
+                  <mat-label>Severity</mat-label>
+                  <mat-select [(value)]="all">
+                      <mat-option value="critical">1 - Critical Bugs</mat-option>
+                      <mat-option value="high">2 - High Bugs</mat-option>
+                      <mat-option value="medium">3 - Medium Bugs</mat-option>
+                      <mat-option value="low">4 - Low Bugs</mat-option>
+                  </mat-select>
+              </mat-form-field> -->
+              <!-- </div> -->
+            </div>
+
+            <div class="mat-table-div">
+              <table mat-table [dataSource]="filteredBugDetails" class="mat-elevation-z8">
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell class="table-col" *matHeaderCellDef> Id </th>
+                  <td mat-cell class="table-col" *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+                <ng-container matColumnDef="title">
+                  <th mat-header-cell class="table-col" *matHeaderCellDef> Title </th>
+                  <td mat-cell class="table-col" *matCellDef="let element"> {{element.title}} </td>
+                </ng-container>
+                <ng-container matColumnDef="severity">
+                  <th mat-header-cell class="table-col" *matHeaderCellDef> Severity </th>
+                  <td mat-cell class="table-col" *matCellDef="let element"> {{element.severity}} </td>
+                </ng-container>
+                <ng-container matColumnDef="createdBy">
+                  <th mat-header-cell class="table-col" *matHeaderCellDef> Assigned By </th>
+                  <td mat-cell class="table-col" *matCellDef="let element"> {{element.createdBy}} </td>
+                </ng-container>
+                <ng-container matColumnDef="createdDate">
+                  <th mat-header-cell class="table-col" *matHeaderCellDef> Assigned Date </th>
+                  <td mat-cell class="table-col" *matCellDef="let element"> {{element.createdDate}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+
+      </div>
+
+      <!-- <div class="main">
+      <div class="items">
+        <mat-card>
+          <div class="chartContainer1">
+            <ngx-charts-advanced-pie-chart #chart1 [tooltipDisabled]="false" [view]="[500,300]" [scheme]="'cool'"
+              [results]="bugsActResCnt" [gradient]="gradient" (select)="openDialogBugsActRes($event)">
+            </ngx-charts-advanced-pie-chart>
+          </div>
+          <div class="titleText">All Active Resolved Bugs under CAPTOR</div>
+        </mat-card>
+      </div>
+
+      <div class="items">
+        <mat-card>
+          <div class="chartContainer">
+            <ngx-charts-bar-horizontal #chart2 [scheme]="'cool'" [results]="bugGrpCnt" [gradient]="gradient"
+              [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showDataLabel]="true"
+              [showGridLines]="showGridLines" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+              [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" (select)="openDialogBugsApp($event)">
+            </ngx-charts-bar-horizontal>
+          </div>
+          <div class="titleText ">Current Bugs under CAPTOR</div>
+        </mat-card>
+      </div>
+
+      <div class="items">
+        <mat-card>
+          <div class="chartContainer">
+            <ngx-charts-bar-horizontal-2d #chart3 [scheme]="'cool'" [results]="bugSeverityCnt" [gradient]="gradient"
+              [xAxis]="showXAxis" [yAxis]="true" [legend]="true" [showDataLabel]="true" [showGridLines]="showGridLines"
+              [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
+              [yAxisLabel]="yAxisLabel" (select)="openDialogBugsSev($event)">
+            </ngx-charts-bar-horizontal-2d>
+          </div>
+          <div class="titleText">All Active Resolved Bugs By Severity</div>
+        </mat-card>
+      </div>
+    </div> -->
+
+
+
+    </mat-tab>
+  </div>
+  <mat-tab label="Error Logs">
+    <app-log-dashboard></app-log-dashboard>
+    <!-- <div class="main">
+      <div class="itemsLog">
+        <a [routerLink]="[ '/logDashboard' ]">
+          <mat-card class="wideCard">
+            <iframe [src]="iframeLogSourceUrl" frameborder="0" width="100%" height="300px"></iframe>
+            <div class="titleText">Error Logs</div>
+          </mat-card>
+        </a>
+      </div> -->
+    <!-- <div class="itemsLog">
+        <a [routerLink]="[ '/logDashboard' ]">
+          <mat-card class="wideCard">
+            <iframe [src]="iframeLogSourceUrl" frameborder="0" width="100%" height="300px"></iframe>
+            <div class="titleText">Errors - Past 1 day</div>
+          </mat-card>
+        </a>
+      </div> -->
+    <!-- </div> -->
+
+  </mat-tab>
+  <mat-tab label="TFS Tasks">
+    <app-tfs-dashboard></app-tfs-dashboard>
+  </mat-tab>
+</mat-tab-group>
