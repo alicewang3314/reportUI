@@ -8,6 +8,10 @@ import { FormControl } from '@angular/forms';
 import { BarHorizontalComponent, BaseChartComponent } from '@swimlane/ngx-charts';
 import * as _ from 'lodash';
 
+// refactoring
+import { BugReportCard } from 'src/app/types';
+
+
 export class Project {
   Name: string;
 }
@@ -19,7 +23,7 @@ export class Project {
   encapsulation: ViewEncapsulation.None
 })
 export class HomePageComponent implements OnInit {
-  
+
   ////////////// ---------old code-------------////////////////
   iframeLiveLogSourceUrl: SafeResourceUrl;
   iframeLogSourceUrl: SafeResourceUrl;
@@ -29,15 +33,15 @@ export class HomePageComponent implements OnInit {
 
   respBugApi: any[];
   bugsActResCnt: any;
-  bugGrpCnt: ({ name: string, value: number}[]);
-  seriesData: ({ name: string, value: number}[]);
-  bugStackCnt: ({ name: string, series: ({ name: string, value: number}[])}[]);
+  bugGrpCnt: ({ name: string, value: number }[]);
+  seriesData: ({ name: string, value: number }[]);
+  bugStackCnt: ({ name: string, series: ({ name: string, value: number }[]) }[]);
   bugSeverityCnt: ({ name: string, series: ({ name: string, value: number }[]) }[]);
 
   view: any[] = [700, 400];
 
   //chart options
-  
+
   showXAxis = true;
   showYAxis = true;
   gradient = false;
@@ -50,39 +54,13 @@ export class HomePageComponent implements OnInit {
   selectedTabIndex = new FormControl(0);
   ///////////// ---------old code-------------//////////////////////
 
-  filteredBugDetails:any;
-  selectedSeverity:any = 'all';
+  filteredBugDetails: any;
+  selectedSeverity: any = 'all';
 
-
-  donutData : any;
-  totalBugs = {
-    total:0,
-    resolved:0,
-    active:0
-  }
-  criticalBugs = {
-    total:0,
-    resolved:0,
-    active:0
-  }
-  highBugs = {
-    total:0,
-    resolved:0,
-    active:0
-  }
-  mediumBugs = {
-    total:0,
-    resolved:0,
-    active:0
-  }
-  lowBugs = {
-    total:0,
-    resolved:0,
-    active:0
-  }
+  donutData: any;
 
   donutColorScheme = {
-    domain: ['#66a3ff','#40E0D0', '#98FB98', '#4dff4d', '#C71585', '#DB7093', '#FFC0CB' , '#ffd11a', '#ffe680', '#944dff', '#cc66ff','#4B0082','#FFA500']
+    domain: ['#66a3ff', '#40E0D0', '#98FB98', '#4dff4d', '#C71585', '#DB7093', '#FFC0CB', '#ffd11a', '#ffe680', '#944dff', '#cc66ff', '#4B0082', '#FFA500']
   };
 
   stackColorScheme = {
@@ -90,7 +68,41 @@ export class HomePageComponent implements OnInit {
   };
 
   displayedColumns: string[] = ['id', 'title', 'severity', 'createdBy', 'createdDate'];
-  donutChartLevel:number = 0;
+  donutChartLevel: number = 0;
+
+
+  // ================ refactoring
+  totalBugs: BugReportCard = {
+    title: 'Total Bugs',
+    total: 0,
+    resolved: 0,
+    active: 0
+  };
+  criticalBugs: BugReportCard = {
+    title: '1 - Critical Bugs',
+    total: 0,
+    resolved: 0,
+    active: 0
+  };
+  highBugs: BugReportCard = {
+    title: '2 - High Bugs',
+    total: 0,
+    resolved: 0,
+    active: 0
+  };
+  mediumBugs: BugReportCard = {
+    title: '3 - Medium Bugs',
+    total: 0,
+    resolved: 0,
+    active: 0
+  };
+  lowBugs: BugReportCard = {
+    title: '4 - Low Bugs',
+    total: 0,
+    resolved: 0,
+    active: 0
+  };
+
 
   constructor(private sanitizer: DomSanitizer,
     private iterationService: IterationService,
@@ -115,7 +127,7 @@ export class HomePageComponent implements OnInit {
         this.calculateBugsAppCnt(this.respBugApi);
         this.calculateBugsActResCnt(this.respBugApi);
         this.calculateBugsSeverityCnt(this.respBugApi);
-        console.log("result",resp);
+        console.log("result", resp);
         this.calculateCardData();
         this.getDonutChartData();
         this.calculateStackData();
@@ -123,81 +135,96 @@ export class HomePageComponent implements OnInit {
 
   }
 
-  selectedAreaPath:any;
-  reloadBugDetails(event){
+  selectedAreaPath: any;
+  reloadBugDetails(event) {
     let self = this;
     self.selectedAreaPath = event.name;
-    if(this.selectedSeverity!=='all')
-      this.filteredBugDetails = _.filter(self.respBugApi,function(o) { return o.areaPath == event.name && o.severity==self.selectedSeverity});
+    if (this.selectedSeverity !== 'all')
+      this.filteredBugDetails = _.filter(self.respBugApi, function (o) { return o.areaPath == event.name && o.severity == self.selectedSeverity });
     else
-    this.filteredBugDetails = _.filter(self.respBugApi,function(o) { return o.areaPath == event.name});
+      this.filteredBugDetails = _.filter(self.respBugApi, function (o) { return o.areaPath == event.name });
   }
-  
-  getDonutChartData(){
+
+  getDonutChartData() {
     this.donutChartLevel = 0;
     this.donutData = [];
-    for(let i=0;i<this.respBugApi.length;i++){
+    for (let i = 0; i < this.respBugApi.length; i++) {
       let areaPath = this.respBugApi[i].areaPath;
-      let pathData = _.find(this.donutData,function(o) { return o.name == areaPath})
-      if(pathData==undefined){
+      let pathData = _.find(this.donutData, function (o) { return o.name == areaPath })
+      if (pathData == undefined) {
         this.donutData.push({
           "name": areaPath,
-          "value": _.filter(this.respBugApi,function(o) { return o.areaPath == areaPath && o.state== "Active"}).length
+          "value": _.filter(this.respBugApi, function (o) { return o.areaPath == areaPath && o.state == "Active" }).length
         });
       }
-      
+
     }
   }
 
-  calculateCardData(){
-    this.filteredBugDetails = this.respBugApi;
-    this.totalBugs.total = this.respBugApi.length;
-    this.totalBugs.resolved = _.filter(this.respBugApi,function(o) { return o.state == "Resolved"}).length;
-    this.totalBugs.active = _.filter(this.respBugApi,function(o) { return o.state == "Active"}).length;
-    this.criticalBugs.total =  _.filter(this.respBugApi,function(o) { return o.severity == "1 - Critical" }).length;
-    this.criticalBugs.resolved = _.filter(this.respBugApi,function(o) { return o.severity == "1 - Critical" && o.state == "Resolved"}).length;
-    this.criticalBugs.active = _.filter(this.respBugApi,function(o) { return o.severity == "1 - Critical" && o.state == "Active"}).length;
-    this.highBugs.total =  _.filter(this.respBugApi,function(o) { return o.severity == "2 - High" }).length;
-    this.highBugs.resolved = _.filter(this.respBugApi,function(o) { return o.severity == "2 - High" && o.state == "Resolved"}).length;
-    this.highBugs.active = _.filter(this.respBugApi,function(o) { return o.severity == "2 - High" && o.state == "Active"}).length;this.criticalBugs.total =  _.filter(this.respBugApi,function(o) { return o.severity == "1 - Critical" }).length;
-    this.mediumBugs.total =  _.filter(this.respBugApi,function(o) { return o.severity == "3 - Medium" }).length;
-    this.mediumBugs.resolved = _.filter(this.respBugApi,function(o) { return o.severity == "3 - Medium" && o.state == "Resolved"}).length;
-    this.mediumBugs.active = _.filter(this.respBugApi,function(o) { return o.severity == "3 - Medium" && o.state == "Active"}).length;this.criticalBugs.total =  _.filter(this.respBugApi,function(o) { return o.severity == "1 - Critical" }).length;
-    this.lowBugs.total =  _.filter(this.respBugApi,function(o) { return o.severity == "4 - Low" }).length;
-    this.lowBugs.resolved = _.filter(this.respBugApi,function(o) { return o.severity == "4 - Low" && o.state == "Resolved"}).length;
-    this.lowBugs.active = _.filter(this.respBugApi,function(o) { return o.severity == "4 - Low" && o.state == "Active"}).length;this.criticalBugs.total =  _.filter(this.respBugApi,function(o) { return o.severity == "1 - Critical" }).length;
- 
+  calculateCardData() {
+    // refactoring
+    const filter = (root: any, prop: string, rule: string): any[] => root.filter(i => i[prop] === rule);
+
+    const total = this.respBugApi;
+    const resolved = filter(total, 'state', 'Resolved');
+    const active = filter(total, 'state', 'Active');
+
+    Object.assign(this.totalBugs, {
+      total: total.length,
+      resolved: resolved.length,
+      active: active.length,
+    });
+    Object.assign(this.criticalBugs, {
+      total: filter(total, 'severity', '1 - Critical').length,
+      resolved: filter(resolved, 'severity', '1 - Critica').length,
+      active: filter(active, 'severity', '1 - Critica').length,
+    });
+    Object.assign(this.highBugs, {
+      total: filter(total, 'severity', '2 - High').length,
+      resolved: filter(resolved, 'severity', '2 - High').length,
+      active: filter(active, 'severity', '2 - High').length,
+    });
+    Object.assign(this.mediumBugs, {
+      total: filter(total, 'severity', '4 - Low').length,
+      resolved: filter(resolved, 'severity', '4 - Low').length,
+      active: filter(active, 'severity', '4 - Low').length,
+    });
+    Object.assign(this.highBugs, {
+      total: filter(total, 'severity', '2 - High').length,
+      resolved: filter(resolved, 'severity', '2 - High').length,
+      active: filter(active, 'severity', '2 - High').length,
+    });
   }
 
-  calculateStackData(){
+  calculateStackData() {
     this.bugStackCnt = [];
-    for(let i=0;i<this.respBugApi.length;i++){
+    for (let i = 0; i < this.respBugApi.length; i++) {
       let areaSplit = this.respBugApi[i].areaPath.split('\\');
-        let areaName = areaSplit[areaSplit.length - 1];
+      let areaName = areaSplit[areaSplit.length - 1];
       let areaPath = this.respBugApi[i].areaPath;
-      let pathData = _.find(this.bugStackCnt,function(o) { return o.name == areaName})
-      if(pathData==undefined){
+      let pathData = _.find(this.bugStackCnt, function (o) { return o.name == areaName })
+      if (pathData == undefined) {
         let seriesData = [];
-        let seriesDataList = _.filter(this.respBugApi,function(o) { return o.areaPath == areaPath && o.state== "Active"});
-        let criticalDataList = _.filter(seriesDataList,function(o) { return o.severity == "1 - Critical"});
-        let highDataList = _.filter(seriesDataList,function(o) { return o.severity == "2 - High"});
-        let mediumDataList = _.filter(seriesDataList,function(o) { return o.severity == "3 - Medium"});
-        let lowDataList = _.filter(seriesDataList,function(o) { return o.severity == "4 - Low"});
+        let seriesDataList = _.filter(this.respBugApi, function (o) { return o.areaPath == areaPath && o.state == "Active" });
+        let criticalDataList = _.filter(seriesDataList, function (o) { return o.severity == "1 - Critical" });
+        let highDataList = _.filter(seriesDataList, function (o) { return o.severity == "2 - High" });
+        let mediumDataList = _.filter(seriesDataList, function (o) { return o.severity == "3 - Medium" });
+        let lowDataList = _.filter(seriesDataList, function (o) { return o.severity == "4 - Low" });
         seriesData.push({
-          "name":"1 - Critical",
-          "value":criticalDataList.length
+          "name": "1 - Critical",
+          "value": criticalDataList.length
         });
         seriesData.push({
-          "name":"2 - High",
-          "value":highDataList.length
+          "name": "2 - High",
+          "value": highDataList.length
         });
         seriesData.push({
-          "name":"3 - Medium",
-          "value":mediumDataList.length
+          "name": "3 - Medium",
+          "value": mediumDataList.length
         });
         seriesData.push({
-          "name":"4 - Low",
-          "value":lowDataList.length
+          "name": "4 - Low",
+          "value": lowDataList.length
         });
         // for(let j=0;j<seriesDataList.length;j++){
         //   let severityLevel = seriesDataList[j].severity;
@@ -209,105 +236,27 @@ export class HomePageComponent implements OnInit {
         //     })
         //   }
         // } 
-        
+
         this.bugStackCnt.push({
           "name": areaName,
           "series": seriesData
         });
       }
-      
+
     }
   }
 
-  onBugDropdownChange(event){
+  onBugDropdownChange(event) {
     let self = this;
     self.selectedSeverity = event.value;
-    
-    if(self.selectedSeverity!=='all' && self.selectedAreaPath!==undefined)
-      self.filteredBugDetails = _.filter(self.respBugApi,function(o) { return o.areaPath == self.selectedAreaPath && o.severity==self.selectedSeverity});
-    else if(self.selectedSeverity!=='all')
-      self.filteredBugDetails = _.filter(self.respBugApi,function(o) { return o.severity==self.selectedSeverity});
+
+    if (self.selectedSeverity !== 'all' && self.selectedAreaPath !== undefined)
+      self.filteredBugDetails = _.filter(self.respBugApi, function (o) { return o.areaPath == self.selectedAreaPath && o.severity == self.selectedSeverity });
+    else if (self.selectedSeverity !== 'all')
+      self.filteredBugDetails = _.filter(self.respBugApi, function (o) { return o.severity == self.selectedSeverity });
     else
-    self.filteredBugDetails = self.respBugApi;
+      self.filteredBugDetails = self.respBugApi;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   openDialogBugsApp(e): void {
     var apps = this.respBugApi.filter(resp => {
@@ -352,6 +301,9 @@ export class HomePageComponent implements OnInit {
     });
   }
 
+  /**
+   *
+   */
   calculateBugsAppCnt(bugsActRes: any[]) {
     let bugsActResGrp = bugsActRes.reduce((ubc, u) => ({
       ...ubc,

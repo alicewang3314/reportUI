@@ -41,12 +41,12 @@ import { TfsReportsModule } from './tfs-reports/tfs-reports.module';
 import { TfsDashboardSettingsComponent } from './settings/tfs-dashboard-settings/tfs-dashboard-settings.component';
 import { LogDashboardComponent } from './log-report/log-dashboard/log-dashboard.component';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 // import { LogDashboardComponent } from './log-dashboard/log-dashboard.component';
 
-
+import { BugReportCard } from './components';
 
 @NgModule({
 
@@ -63,8 +63,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     TfsDashboardHomeComponent,
     TfsDashboardSettingsComponent,
     LogDashboardComponent,
-    BugDetailsDialog
+    BugDetailsDialog,
     //LogDashboardComponent
+    BugReportCard,
   ],
   imports: [
     BrowserModule,
