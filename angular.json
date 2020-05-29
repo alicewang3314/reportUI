@@ -67,7 +67,8 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "tfs-reports:build:production"
+              "browserTarget": "tfs-reports:build:production",
+              "proxyConfig": "proxyconfig.json"  
             }
           }
         },

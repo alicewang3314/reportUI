@@ -7,8 +7,8 @@ export const environment = {
   // baseUrl:"http://crtecdev0108783/tfsapi",
   // baseUrl:"http://crtecdev0308265.pa.lcl/TfsApi",
   // baseUrl: "http://localhost:25670",
-  //baseUrl: "http://crtecdv0111429d.pa.lcl"
-  baseUrl:"http://capmon.cor.state.pa.us/TFSAPI",
+  // baseUrl: "http://crtecdv0111429d.pa.lcl"
+  baseUrl:'http://localhost:4200',
 
   baseLogApiUrl:"",
   //baseLogApiUrl:"http://localhost:26839",

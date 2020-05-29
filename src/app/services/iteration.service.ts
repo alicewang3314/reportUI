@@ -132,7 +132,7 @@ export class IterationService {
 
   getBugsForDashboard(): Observable<any> {
 
-    let url_ = this.baseUrl + "/api/Bugs/ActiveResolved";
+    let url_ = "/api/Bugs/ActiveResolved";
     url_ = url_.replace(/[?&]$/, "");
 
     const httpOptions = {

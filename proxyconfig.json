@@ -1,9 +1,8 @@
 {
-    "/api": {
-        "target": "http://capmon.cor.state.pa.us/TFSAPI",
-        "secure": false,
-        "pathRewrite": {
-            "^/api": ""
-        }
-    }
+  "/api/Bugs/ActiveResolved": {
+    "target": "http://capmon.cor.state.pa.us/TFSAPI",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
 }
