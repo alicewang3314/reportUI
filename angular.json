@@ -30,6 +30,9 @@
             "scripts": []
           },
           "configurations": {
+            "es5": {
+              "tsConfig": "./tsconfig.es5.json"
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -67,8 +70,10 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "tfs-reports:build:production",
-              "proxyConfig": "proxyconfig.json"  
+              "browserTarget": "tfs-reports:build:production"
+            },
+            "es5": {
+              "browserTarget": "tfs-reports:build:es5"
             }
           }
         },

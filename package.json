@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "dev": "ng serve --proxy-config proxyconfig.json",
+    "dev": "ng serve --proxy-config proxyconfig.json --configuration es5",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
