@@ -8,10 +8,11 @@ import {
 } from "@angular/common/http";
 import { mergeMap as _observableMergeMap, catchError as _observableCatch, publishReplay, refCount } from 'rxjs/operators';
 import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
-import { environment } from "src/environments/environment";
-import { TfsProject } from '../dto/settings/tfs-project';
+import { environment } from 'src/environments/environment';
+
 import { ApiException } from '../tfs-reports/tfs-report-service.';
-import { Settings } from '../dto/settings/settings';
+
+import { TfsProject, Settings } from 'src/app/types';
 
 @Injectable({
   providedIn: 'root'
@@ -148,7 +149,7 @@ export class SettingService {
     }
     return _observableOf<Settings>(<any>null);
   }
-  
+
   addSettings(settings: Settings): Observable<number> {
     let url_ = environment.baseUrl + "/api/Settings/UserSettings";
 
@@ -246,7 +247,7 @@ export class SettingService {
     return _observableOf<number>(<any>null);
   }
 
-  clearCache(){
+  clearCache() {
     this.dbSettings = null;
   }
 

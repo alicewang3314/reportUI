@@ -58,10 +58,9 @@ mat-menu {
 }
 
 .chartContainer {
-  height: 300px;
-  width: 55vw;
-  min-width: 320px;
-  /* max-width: 320vh; */
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
   fill: white;
   background-color: #212121;
 }
@@ -129,6 +128,7 @@ mat-menu {
 
 .mat-card-content {
   font-size: 22px;
+  
 }
 
 /* refactoring */

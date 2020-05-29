@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
-import { FilterPipe } from "./filter.pipe";
+import { FilterPipe } from "src/app/pipes";
 import { AppComponent } from "./app.component";
 import { LogReportModule } from "././log-report/log-report.module";
 import { MatSelectModule } from '@angular/material/select';
@@ -34,7 +34,6 @@ import { ProjectResourceComponent } from "./project-resource/project-resource.co
 import { HomePageComponent, BugDetailsDialog } from "./home-page/home-page.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 //import { IndexPageComponent } from "./index-page/index-page.component";
-import { LoaderComponent } from './loader/loader.component';
 import { InterceptorService } from './interceptor.service';
 import { TfsDashboardHomeComponent } from './tfs-dashboard-home/tfs-dashboard-home.component';
 import { TfsReportsModule } from './tfs-reports/tfs-reports.module';
@@ -46,7 +45,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 // import { LogDashboardComponent } from './log-dashboard/log-dashboard.component';
 
-import { BugReportCard } from './components';
+import { BugReportCard,LoaderComponent } from './components';
 
 @NgModule({
 
@@ -87,7 +86,6 @@ import { BugReportCard } from './components';
     MatMenuModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-
     MatListModule,
     MatCheckboxModule,
     MatToolbarModule,

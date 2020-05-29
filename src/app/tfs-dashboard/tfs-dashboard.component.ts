@@ -7,8 +7,9 @@ import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 import { SettingService } from '../services/setting.service';
-import { Settings } from '../dto/settings/settings';
+import { Settings } from 'src/app/types';
 //import { userInfo } from "os";
+
 @Component({
   selector: "app-tfs-dashboard",
   templateUrl: "./tfs-dashboard.component.html",

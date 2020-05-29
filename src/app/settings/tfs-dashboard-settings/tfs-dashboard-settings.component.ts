@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SettingService } from 'src/app/services/setting.service';
-import { Settings } from 'src/app/dto/settings/settings';
+import { Settings } from 'src/app/types';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CacheService } from 'src/app/services/cache.service';
