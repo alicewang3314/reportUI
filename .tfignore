@@ -12,3 +12,5 @@ project.lock.json
 project.assets.json
 package-lock.json
 *.nuget.props
+
+.gitignore
