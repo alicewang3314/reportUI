@@ -94,7 +94,6 @@ export class CacheService {
   getBugsDashboardData() {
 
     if (!this.observableBugsDashboardData) {
-
       this.observableBugsDashboardData = this.iterationService.getBugsForDashboard().pipe(
         publishReplay(1),
         refCount()

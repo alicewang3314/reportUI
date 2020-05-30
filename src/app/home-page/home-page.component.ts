@@ -104,7 +104,8 @@ export class HomePageComponent implements OnInit {
   };
 
 
-  constructor(private sanitizer: DomSanitizer,
+  constructor(
+    private sanitizer: DomSanitizer,
     private iterationService: IterationService,
     private cacheService: CacheService,
     public dialog: MatDialog) {
@@ -124,9 +125,10 @@ export class HomePageComponent implements OnInit {
         //   this.respBugApi[i].severityCode
         // }
         //prepare data for chart
-        this.calculateBugsAppCnt(this.respBugApi);
-        this.calculateBugsActResCnt(this.respBugApi);
-        this.calculateBugsSeverityCnt(this.respBugApi);
+        this.getBugReportsData(resp);
+        // this.calculateBugsAppCnt(this.respBugApi);
+        // this.calculateBugsActResCnt(this.respBugApi);
+        // this.calculateBugsSeverityCnt(this.respBugApi);
         console.log("result", resp);
         this.calculateCardData();
         this.getDonutChartData();
@@ -146,19 +148,20 @@ export class HomePageComponent implements OnInit {
   }
 
   getDonutChartData() {
-    this.donutChartLevel = 0;
     this.donutData = [];
-    for (let i = 0; i < this.respBugApi.length; i++) {
-      let areaPath = this.respBugApi[i].areaPath;
-      let pathData = _.find(this.donutData, function (o) { return o.name == areaPath })
-      if (pathData == undefined) {
+    let areaPath, pathData;
+
+    this.respBugApi.forEach((item) => {
+      areaPath = item.areaPath;
+      pathData = this.donutData.find(i => i.name === areaPath);
+
+      if (!pathData) {
         this.donutData.push({
           "name": areaPath,
-          "value": _.filter(this.respBugApi, function (o) { return o.areaPath == areaPath && o.state == "Active" }).length
+          "value": this.respBugApi.filter(i => i.areaPath === areaPath && i.start === 'Actice').length
         });
       }
-
-    }
+    });
   }
 
   calculateCardData() {
@@ -198,128 +201,108 @@ export class HomePageComponent implements OnInit {
 
   calculateStackData() {
     this.bugStackCnt = [];
-    for (let i = 0; i < this.respBugApi.length; i++) {
-      let areaSplit = this.respBugApi[i].areaPath.split('\\');
-      let areaName = areaSplit[areaSplit.length - 1];
-      let areaPath = this.respBugApi[i].areaPath;
-      let pathData = _.find(this.bugStackCnt, function (o) { return o.name == areaName })
-      if (pathData == undefined) {
-        let seriesData = [];
-        let seriesDataList = _.filter(this.respBugApi, function (o) { return o.areaPath == areaPath && o.state == "Active" });
-        let criticalDataList = _.filter(seriesDataList, function (o) { return o.severity == "1 - Critical" });
-        let highDataList = _.filter(seriesDataList, function (o) { return o.severity == "2 - High" });
-        let mediumDataList = _.filter(seriesDataList, function (o) { return o.severity == "3 - Medium" });
-        let lowDataList = _.filter(seriesDataList, function (o) { return o.severity == "4 - Low" });
-        seriesData.push({
-          "name": "1 - Critical",
-          "value": criticalDataList.length
-        });
-        seriesData.push({
-          "name": "2 - High",
-          "value": highDataList.length
-        });
-        seriesData.push({
-          "name": "3 - Medium",
-          "value": mediumDataList.length
-        });
-        seriesData.push({
-          "name": "4 - Low",
-          "value": lowDataList.length
-        });
-        // for(let j=0;j<seriesDataList.length;j++){
-        //   let severityLevel = seriesDataList[j].severity;
-        //   let severityData = _.find(seriesData,function(o) { return o.severity == severityLevel})
-        //   if(severityData==undefined){
-        //     seriesData.push({
-        //       "name":severityLevel,
-        //       "value": _.filter(seriesData,function(o) { o.severity==severityLevel}).length
-        //     })
-        //   }
-        // } 
+    let areaSplit, areaName, areaPath, pathData;
+    let seriesData, seriesDataList, criticalDataList, highDataList, mediumDataList, lowDataList;
 
+    this.respBugApi.forEach(item => {
+      areaSplit = item.areaPath.split('\\');
+      areaName = areaSplit[areaSplit.length - 1];
+      areaPath = item.areaPath;
+      pathData = this.bugStackCnt.find(i => i.name === areaName);
+
+      if (!pathData) {
+        seriesData = [];
+        seriesDataList = this.respBugApi.filter(o => o.areaPath === areaPath && o.state === "Active");
+        const rules = ['1 - Critical', '2 - High', '3 - Medium', '4 - Low'];
+        rules.map(rule => {
+          const fiteredData = seriesDataList.filter(data => data.severity === rule);
+          seriesData.push({
+            name: rule,
+            value: fiteredData
+          });
+        });
         this.bugStackCnt.push({
           "name": areaName,
           "series": seriesData
         });
       }
-
-    }
+    });
   }
 
   onBugDropdownChange(event) {
+    // todo: why resign to self?
     let self = this;
     self.selectedSeverity = event.value;
 
-    if (self.selectedSeverity !== 'all' && self.selectedAreaPath !== undefined)
-      self.filteredBugDetails = _.filter(self.respBugApi, function (o) { return o.areaPath == self.selectedAreaPath && o.severity == self.selectedSeverity });
-    else if (self.selectedSeverity !== 'all')
-      self.filteredBugDetails = _.filter(self.respBugApi, function (o) { return o.severity == self.selectedSeverity });
-    else
-      self.filteredBugDetails = self.respBugApi;
-  }
+    self.filteredBugDetails = self.selectedSeverity !== 'all' ?
+      (self.selectedAreaPath ?
+        self.respBugApi.filter(i => i.areaPath == self.selectedAreaPath && i.severity == self.selectedSeverity) :
+        self.respBugApi.filter(i => i.severity == self.selectedSeverity)
+      ) :
+      self.respBugApi;
+  };
 
-  openDialogBugsApp(e): void {
-    var apps = this.respBugApi.filter(resp => {
-      let appNames = resp.areaPath.split('\\');
-      return (appNames[appNames.length - 1] == (e.name))
-    });
+  // openDialogBugsApp(e): void {
+  //   var apps = this.respBugApi.filter(resp => {
+  //     let appNames = resp.areaPath.split('\\');
+  //     return (appNames[appNames.length - 1] == (e.name))
+  //   });
 
-    this.dialog.open(BugDetailsDialog, {
-      width: '700px',
-      height: 'auto',
-      data: {
-        apps: apps, title: e.name
-      }
-    });
-  }
+  //   this.dialog.open(BugDetailsDialog, {
+  //     width: '700px',
+  //     height: 'auto',
+  //     data: {
+  //       apps: apps, title: e.name
+  //     }
+  //   });
+  // }
 
-  openDialogBugsActRes(e) {
-    var apps = this.respBugApi.filter(resp =>
-      resp.state === e.name
-    );
+  // openDialogBugsActRes(e) {
+  //   var apps = this.respBugApi.filter(resp =>
+  //     resp.state === e.name
+  //   );
 
-    this.dialog.open(BugDetailsDialog, {
-      width: '700px',
-      height: 'auto',
-      data: {
-        apps: apps, title: e.name
-      }
-    });
-  }
+  //   this.dialog.open(BugDetailsDialog, {
+  //     width: '700px',
+  //     height: 'auto',
+  //     data: {
+  //       apps: apps, title: e.name
+  //     }
+  //   });
+  // }
 
-  openDialogBugsSev(e) {
-    var apps = this.respBugApi.filter(resp =>
-      resp.state === e.name && resp.severity === e.series
-    );
+  // openDialogBugsSev(e) {
+  //   var apps = this.respBugApi.filter(resp =>
+  //     resp.state === e.name && resp.severity === e.series
+  //   );
 
-    this.dialog.open(BugDetailsDialog, {
-      width: '700px',
-      height: 'auto',
-      data: {
-        apps: apps, title: e.name + ' | ' + e.series
-      }
-    });
-  }
+  //   this.dialog.open(BugDetailsDialog, {
+  //     width: '700px',
+  //     height: 'auto',
+  //     data: {
+  //       apps: apps, title: e.name + ' | ' + e.series
+  //     }
+  //   });
+  // }
 
   /**
    *
    */
   calculateBugsAppCnt(bugsActRes: any[]) {
-    let bugsActResGrp = bugsActRes.reduce((ubc, u) => ({
-      ...ubc,
-      [u.areaPath]: [...(ubc[u.areaPath] || []), u],
+    let bugsActResGrp = bugsActRes.reduce((prev, curr) => ({
+      ...prev,
+      [curr.areaPath]: [...(prev[curr.areaPath] || []), curr],
     }), {});
+    let bugGrpCnt = [];
+    let areaSplit, name;
 
-    this.bugGrpCnt = [];
+    bugsActResGrp.forEach(area => {
+      areaSplit = areaSplit('\\');
+      name = areaSplit[areaSplit.length - 1];
+      bugGrpCnt.push({ name, value: bugsActResGrp[area].length });
+    });
 
-    for (const area in bugsActResGrp) {
-      let areaSplit = area.split('\\');
-      let areaName = areaSplit[areaSplit.length - 1];
-      this.bugGrpCnt.push({ name: areaName, value: bugsActResGrp[area].length });
-    }
-    this.bugGrpCnt = this.bugGrpCnt.sort((a, b) => a.value - b.value);
-
-    //this.chart2.update();
+    this.bugGrpCnt = bugGrpCnt.sort((a, b) => a.value - b.value);
   }
 
   calculateBugsActResCnt(bugsActRes: any[]) {
@@ -393,30 +376,38 @@ export class HomePageComponent implements OnInit {
 
   clearBugsDashboard() {
     this.cacheService.clearBugsCache();
-    this.cacheService.getBugsDashboardData().subscribe(
-      resp => {
-        this.respBugApi = resp;
-        //prepare data for chart
-        this.calculateBugsAppCnt(this.respBugApi);
-        this.calculateBugsActResCnt(this.respBugApi);
-        this.calculateBugsSeverityCnt(this.respBugApi);
-      });
+    // todo: Do we need this? since src data change will cause reinit
+    // this.cacheService.getBugsDashboardData().subscribe(
+    //   resp => {
+    //     this.respBugApi = resp;
+    //     //prepare data for chart
+    //     // this.calculateBugsAppCnt(this.respBugApi);
+    //     // this.calculateBugsActResCnt(this.respBugApi);
+    //     // this.calculateBugsSeverityCnt(this.respBugApi);
+    //     this.getBugReportsData(resp);
+    //   });
+  }
+
+  getBugReportsData(temp) {
+    this.calculateBugsAppCnt(temp);
+    this.calculateBugsActResCnt(temp);
+    this.calculateBugsSeverityCnt(temp);
   }
 }
 
-@Component({
-  selector: 'bug-details-dialog',
-  templateUrl: 'bug-details-dialog.html',
-})
+// @Component({
+//   selector: 'bug-details-dialog',
+//   templateUrl: 'bug-details-dialog.html',
+// })
 
-export class BugDetailsDialog {
+// export class BugDetailsDialog {
 
-  constructor(
-    public dialogRef: MatDialogRef<BugDetailsDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+//   constructor(
+//     public dialogRef: MatDialogRef<BugDetailsDialog>,
+//     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  onCloseClick(): void {
-    this.dialogRef.close();
-  }
+//   onCloseClick(): void {
+//     this.dialogRef.close();
+//   }
 
-}
+// }

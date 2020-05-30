@@ -92,7 +92,7 @@ export class IterationService {
     return this._http.post<IterationReport>(url_, data, httpOptions);
   }
 
-  getAllPending2(userSettings){
+  getAllPending2(userSettings) {
 
     let url_ = this.baseUrl + "/api/Iteration/AllPending2";
 
@@ -131,13 +131,11 @@ export class IterationService {
   }
 
   getBugsForDashboard(): Observable<any> {
-
-    let url_ = "/api/Bugs/ActiveResolved";
-    url_ = url_.replace(/[?&]$/, "");
+    const url_ = environment.bugApi;
 
     const httpOptions = {
       headers: new HttpHeaders({
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       })
     };
 

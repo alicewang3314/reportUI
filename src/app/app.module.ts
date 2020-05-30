@@ -31,7 +31,7 @@ import { TfsDashboardComponent } from "./tfs-dashboard/tfs-dashboard.component";
 import { ProjectDetailsComponent } from "./project-details/project-details.component";
 import { ResourceStatisticsComponent } from "./resource-statistics/resource-statistics.component";
 import { ProjectResourceComponent } from "./project-resource/project-resource.component";
-import { HomePageComponent, BugDetailsDialog } from "./home-page/home-page.component";
+import { HomePageComponent, } from "./home-page/home-page.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 //import { IndexPageComponent } from "./index-page/index-page.component";
 import { InterceptorService } from './interceptor.service';
@@ -45,7 +45,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 // import { LogDashboardComponent } from './log-dashboard/log-dashboard.component';
 
-import { BugReportCard,LoaderComponent } from './components';
+import { BugReportCard, LoaderComponent, BugDetailsDialog } from './components';
 
 @NgModule({
 
