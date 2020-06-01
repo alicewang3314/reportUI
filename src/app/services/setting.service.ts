@@ -9,6 +9,7 @@ import {
 import { mergeMap as _observableMergeMap, catchError as _observableCatch, publishReplay, refCount } from 'rxjs/operators';
 import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { APIS } from 'src/app/constants'
 
 import { ApiException } from '../tfs-reports/tfs-report-service.';
 
@@ -23,9 +24,9 @@ export class SettingService {
 
   constructor(private http: HttpClient) { }
 
-  
+
   getProjectsFromTFS(): Observable<TfsProject[]> {
-    let url_ = environment.baseUrl + "/api/Settings/GetProjectsFromTFS";
+    let url_ = environment.baseUrl + APIS.TFS_PROJECT_SETTING;
 
     let options_: any = {
       observe: "response",
@@ -83,7 +84,7 @@ export class SettingService {
   dbSettings: Observable<Settings>;
 
   getProjectsTeamsFromDb(): Observable<Settings> {
-    let url_ = environment.baseUrl + "/api/Settings/UserSettings";
+    let url_ = environment.baseUrl + APIS.USER_SETTING;
 
     let options_: any = {
       observe: "response",
@@ -150,7 +151,7 @@ export class SettingService {
   }
 
   addSettings(settings: Settings): Observable<number> {
-    let url_ = environment.baseUrl + "/api/Settings/UserSettings";
+    let url_ = environment.baseUrl + APIS.USER_SETTING;
 
     const content_ = JSON.stringify(settings);
 
@@ -183,7 +184,7 @@ export class SettingService {
   }
 
   updateSettings(settings: Settings): Observable<number> {
-    let url_ = environment.baseUrl + "/api/Settings/UserSettings";
+    let url_ = environment.baseUrl + APIS.USER_SETTING;
 
     const content_ = JSON.stringify(settings);
 

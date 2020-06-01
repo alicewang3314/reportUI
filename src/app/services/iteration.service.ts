@@ -11,7 +11,7 @@ import { mergeMap as _observableMergeMap, catchError as _observableCatch, publis
 import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { environment } from "src/environments/environment";
 import { ApiException } from '../tfs-reports/tfs-report-service.';
-import { APIS } from 'src/app/constant';
+import { APIS } from 'src/app/constants';
 
 @Injectable({
   providedIn: "root"
