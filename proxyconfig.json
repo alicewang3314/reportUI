@@ -1,8 +1,0 @@
-{
-  "/api/*": {
-    "target": "http://capmon.cor.state.pa.us/TFSAPI",
-    "secure": false,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  }
-}

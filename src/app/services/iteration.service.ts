@@ -137,7 +137,7 @@ export class IterationService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
-      withCredentials: true
+      // withCredentials: true
     };
 
     return this._http.get<any>(url_, httpOptions);
