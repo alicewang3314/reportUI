@@ -120,6 +120,7 @@ export class HomePageComponent implements OnInit {
     this.cacheService.getBugsDashboardData().subscribe(
       resp => {
         this.respBugApi = resp;
+        console.log('init bug data', this.respBugApi);
         // for(var i=0;i<this.respBugApi.length;i++){
         //   if(this.respBugApi[i].se)
         //   this.respBugApi[i].severityCode
