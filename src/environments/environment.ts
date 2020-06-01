@@ -13,9 +13,6 @@ export const environment = {
   baseLogApiUrl: "",
   kibanaUrl: 'http://crtecdev0108783.pa.lcl:5601',
   TFSDashBSetting: "TfsDashBProjsTeams",
-  api: {
-    bugReport: '/api/Bugs/ActiveResolved'
-  }
 };
 
 /*
