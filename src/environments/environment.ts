@@ -8,9 +8,8 @@ export const environment = {
   // baseUrl:"http://crtecdev0308265.pa.lcl/TfsApi",
   // baseUrl: "http://localhost:25670",
   // baseUrl: "http://crtecdv0111429d.pa.lcl"
-  baseUrl: 'http://localhost:4200',
+  baseUrl:'http://capmon.cor.state.pa.us/TFSAPI',
   bugApi: '/api/Bugs/ActiveResolved',
-
   baseLogApiUrl: "",
   //baseLogApiUrl:"http://localhost:26839",
   kibanaUrl: "http://crtecdev0108783.pa.lcl:5601",
