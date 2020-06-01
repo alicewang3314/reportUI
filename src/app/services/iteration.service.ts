@@ -131,7 +131,7 @@ export class IterationService {
   }
 
   getBugsForDashboard(): Observable<any> {
-    const url_ = environment.bugApi;
+    const url_ = environment.baseUrl + environment.api.bugReport;
 
     const httpOptions = {
       headers: new HttpHeaders({
