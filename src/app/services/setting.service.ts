@@ -23,6 +23,7 @@ export class SettingService {
 
   constructor(private http: HttpClient) { }
 
+  
   getProjectsFromTFS(): Observable<TfsProject[]> {
     let url_ = environment.baseUrl + "/api/Settings/GetProjectsFromTFS";
 
@@ -49,8 +50,6 @@ export class SettingService {
         else
           return <Observable<TfsProject[]>><any>_observableThrow(response_);
       }));
-
-
   }
 
   protected processSettings_GetProjectList(response: HttpResponseBase): Observable<TfsProject[]> {

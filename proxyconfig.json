@@ -1,5 +1,5 @@
 {
-  "/api/Bugs/ActiveResolved": {
+  "/api/*": {
     "target": "http://capmon.cor.state.pa.us/TFSAPI",
     "secure": false,
     "changeOrigin": true,
