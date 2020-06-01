@@ -289,6 +289,7 @@ export class HomePageComponent implements OnInit {
    *
    */
   calculateBugsAppCnt(bugsActRes: any[]) {
+    console.log('bugsActRes', bugsActRes);
     let bugsActResGrp = bugsActRes.reduce((prev, curr) => ({
       ...prev,
       [curr.areaPath]: [...(prev[curr.areaPath] || []), curr],
@@ -296,11 +297,11 @@ export class HomePageComponent implements OnInit {
     let bugGrpCnt = [];
     let areaSplit, name;
 
-    bugsActResGrp.forEach(area => {
+    for (const project in bugsActResGrp) {
       areaSplit = areaSplit('\\');
       name = areaSplit[areaSplit.length - 1];
-      bugGrpCnt.push({ name, value: bugsActResGrp[area].length });
-    });
+      bugGrpCnt.push({ name, value: bugsActResGrp[project].length });
+    }
 
     this.bugGrpCnt = bugGrpCnt.sort((a, b) => a.value - b.value);
   }
