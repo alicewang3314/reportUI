@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'bug-detail-dialog',
-  templateUrl: './bug-detail-dialog.html',
+  templateUrl: './bug-detail-dialog.component.html',
 })
 
 export class BugDetailsDialog {
