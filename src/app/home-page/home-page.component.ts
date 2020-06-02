@@ -129,11 +129,10 @@ export class HomePageComponent implements OnInit {
 
     // TODO: remove local dev setup
     // this.respBugApi = rawBugReport;
-    // console.log('init bug data', this.respBugApi);
+    // console.log('init bug data', rawBugReport);
     // this.getBugReportsData(rawBugReport);
-    // console.log("result", rawBugReport);
-    // this.calculateCardData();
-    // this.getDonutChartData(this.respBugApi);
+    // this.calculateCardData(rawBugReport);
+    // this.getDonutChartData(rawBugReport);
     // this.calculateStackData(rawBugReport);
   }
 
@@ -164,7 +163,7 @@ export class HomePageComponent implements OnInit {
 
   calculateCardData(total: any[]) {
     const filter = (root: any, prop: string, rule: string): any[] => root.filter(i => i[prop] === rule);
-    
+
     const resolved = filter(total, 'state', 'Resolved');
     const active = filter(total, 'state', 'Active');
     Object.assign(this.totalBugs, {
