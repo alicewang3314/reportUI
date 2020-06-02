@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
 import { BarHorizontalComponent, BaseChartComponent } from '@swimlane/ngx-charts';
 import * as _ from 'lodash';
 //TODO: remove dev setting
-import { rawBugReport } from 'src/app/mock';
+// import { rawBugReport } from 'src/app/mock';
 
 // refactoring
 import { BugReportCard } from 'src/app/types';
@@ -118,14 +118,14 @@ export class HomePageComponent implements OnInit {
     this.iframeLiveLogSourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.getLiveDashboardSrcUrl());
     this.iframeLogSourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.getLogDashboardSrcUrl());
 
-    // this.cacheService.getBugsDashboardData().subscribe(
-    // resp => {
-    //   this.respBugApi = resp;
-    //   this.getBugReportsData(resp);
-    //   this.calculateCardData();
-    //   this.getDonutChartData(resp);
-    //   this.calculateStackData(resp);
-    // });
+    this.cacheService.getBugsDashboardData().subscribe(
+    resp => {
+      this.respBugApi = resp;
+      this.getBugReportsData(resp);
+      this.calculateCardData();
+      this.getDonutChartData(resp);
+      this.calculateStackData(resp);
+    });
 
     // TODO: remove local dev setup
     // this.respBugApi = rawBugReport;
@@ -134,7 +134,7 @@ export class HomePageComponent implements OnInit {
     // console.log("result", rawBugReport);
     // this.calculateCardData();
     // this.getDonutChartData(this.respBugApi);
-    this.calculateStackData(rawBugReport);
+    // this.calculateStackData(rawBugReport);
   }
 
   selectedAreaPath: any;
