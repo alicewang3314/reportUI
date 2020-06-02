@@ -7,6 +7,7 @@ import { CacheService } from '../services/cache.service';
 import { FormControl } from '@angular/forms';
 import { BarHorizontalComponent, BaseChartComponent } from '@swimlane/ngx-charts';
 import * as _ from 'lodash';
+import { rawBugReport } from 'src/app/mock';
 
 // refactoring
 import { BugReportCard } from 'src/app/types';
@@ -120,22 +121,20 @@ export class HomePageComponent implements OnInit {
     this.cacheService.getBugsDashboardData().subscribe(
       resp => {
         this.respBugApi = resp;
-        console.log('init bug data', this.respBugApi);
-        // for(var i=0;i<this.respBugApi.length;i++){
-        //   if(this.respBugApi[i].se)
-        //   this.respBugApi[i].severityCode
-        // }
-        //prepare data for chart
-        this.getBugReportsData(resp);
-        // this.calculateBugsAppCnt(this.respBugApi);
-        // this.calculateBugsActResCnt(this.respBugApi);
-        // this.calculateBugsSeverityCnt(this.respBugApi);
-        console.log("result", resp);
+        this.getBugReportsData(this.respBugApi);
         this.calculateCardData();
         this.getDonutChartData();
         this.calculateStackData();
       });
 
+    // TODO: remove local dev setup
+    // this.respBugApi = rawBugReport;
+    // console.log('init bug data', this.respBugApi);
+    // this.getBugReportsData(rawBugReport);
+    // console.log("result", rawBugReport);
+    // this.calculateCardData();
+    // this.getDonutChartData();
+    // this.calculateStackData();
   }
 
   selectedAreaPath: any;
@@ -289,74 +288,56 @@ export class HomePageComponent implements OnInit {
   /**
    *
    */
-  calculateBugsAppCnt(bugsActRes: any[]) {
-    console.log('bugsActRes', bugsActRes);
-    let bugsActResGrp = bugsActRes.reduce((prev, curr) => ({
-      ...prev,
-      [curr.areaPath]: [...(prev[curr.areaPath] || []), curr],
-    }), {});
-    let bugGrpCnt = [];
-    let areaSplit, name;
+  calculateBugsAppCnt(bugsReport: any[]) {
+    const groupedIssueByProject = _.groupBy(bugsReport, 'areaPath');
+    const countByProject = [];
 
-    for (const project in bugsActResGrp) {
-      areaSplit = areaSplit('\\');
-      name = areaSplit[areaSplit.length - 1];
-      bugGrpCnt.push({ name, value: bugsActResGrp[project].length });
+    for (const [name, issues] of Object.entries(groupedIssueByProject)) {
+      countByProject.push({
+        name,
+        value: issues.length
+      });
     }
 
-    this.bugGrpCnt = bugGrpCnt.sort((a, b) => a.value - b.value);
+    this.bugGrpCnt = countByProject.sort((a, b) => a.value - b.value);
   }
 
-  calculateBugsActResCnt(bugsActRes: any[]) {
-    let bugsActResGrp = bugsActRes.reduce((ubc, u) => ({
-      ...ubc,
-      [u.state]: [...(ubc[u.state] || []), u],
-    }), {});
+  calculateBugsActResCnt(bugsReport: any[]) {
+    const issueGroupedByStatus = _.groupBy(bugsReport, 'status');
+    const countByStatus = [];
 
-    this.bugsActResCnt = [];
-
-    for (const state in bugsActResGrp) {
-      this.bugsActResCnt.push({ name: state, value: bugsActResGrp[state].length });
+    for (const [name, issues] of Object.entries(issueGroupedByStatus)) {
+      countByStatus.push({
+        name,
+        value: issues.length
+      });
     }
-    console.log("bugs", this.bugsActResCnt);
+
+    this.bugsActResCnt = countByStatus;
   }
 
-  calculateBugsSeverityCnt(bugsActRes: any[]) {
+  calculateBugsSeverityCnt(bugsReport: any[]) {
+    const groupedIssueBySeverity = _.groupBy(bugsReport, 'severity');
+    let formattedGroupedIssueByState;
+    const formattedGroupedIssueByServerity = [];
 
-    let bugsSeverityGrp = bugsActRes.reduce((ubc, u) => ({
-      ...ubc,
-      [u.severity]: [...(ubc[u.severity] || []), u],
-    }), {});
+    for (const [serverity, issues] of Object.entries(groupedIssueBySeverity)) {
+      const groupedByStatus = _.groupBy(issues, 'state');
+      formattedGroupedIssueByState = [];
 
-    this.bugSeverityCnt = [];
-
-    let bugsActGrp2 = [];
-
-    let seriesTmp: ({ name: string, value: number })[] = [];
-
-    for (const key in bugsSeverityGrp) {
-      const element = bugsSeverityGrp[key];
-
-      let bugsActGrpTmp = element.reduce((ubc, u) => ({
-        ...ubc,
-        [u.state]: [...(ubc[u.state] || []), u],
-      }), {});
-
-
-      for (const state in bugsActGrpTmp) {
-        const element = bugsActGrpTmp[state];
-        seriesTmp.push({ name: state, value: bugsActGrpTmp[state].length })
+      for (const [state, issues] of Object.entries(groupedByStatus)) {
+        formattedGroupedIssueByState.push({
+          name: state,
+          value: issues.length
+        });
       }
 
-      bugsActGrp2.push({ severity: key, seriesTmp });
-      seriesTmp = [];
-    };
-
-    bugsActGrp2.forEach(element => {
-      this.bugSeverityCnt.push({ name: element.severity, series: element.seriesTmp });//
-    });
-
-
+      formattedGroupedIssueByServerity.push({
+        name: serverity,
+        series: formattedGroupedIssueByState
+      });
+    }
+    this.bugSeverityCnt = formattedGroupedIssueByServerity;
   }
 
   getLiveDashboardSrcUrl(): string {
