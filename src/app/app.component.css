@@ -30,11 +30,7 @@ mat-icon {
 .mainMaster {
   background-color: #212121;
   width: 100%;
-}
-
-.mainMasterWide {
-  flex-basis: 100%;
-  background-color: #212121;
+  margin: auto;
 }
 
 .spinner {

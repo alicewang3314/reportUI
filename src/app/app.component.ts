@@ -9,15 +9,4 @@ import { FormControl } from '@angular/forms';
 export class AppComponent {
   title = "tfs-reports";
   mode = new FormControl('over');
-  mainCssClass = "mainMaster";
-
-  toggleScreen(){
-    if(this.mainCssClass ==="mainMaster"){
-      this.mainCssClass = "mainMasterWide"
-    }
-    else{
-      this.mainCssClass = "mainMaster";
-    }
-  
-  }
 }

@@ -9,17 +9,12 @@
         <mat-icon>settings</mat-icon>
       </div>
       <mat-menu #menu3="matMenu">
-        <div>
-          <mat-slide-toggle (toggleChange)="toggleScreen()">
-            Full screen width
-          </mat-slide-toggle>
-        </div>
         <a [routerLink]="[ '/tfsDashSettings' ]"><button mat-menu-item>TFS Teams Settings</button></a>
       </mat-menu>
     </div>
   </mat-toolbar>
   <div class="baseMaster">
-    <div [ngClass]="mainCssClass">
+    <div class="mainMaster">
       <loader></loader>
       <router-outlet></router-outlet>
     </div>

@@ -96,7 +96,8 @@ mat-menu {
 }
 
 .mat-tab-body-content {
-  width: 100%;
+  width: 95%;
+  margin: auto;
 }
 
 .buttonPlaceholder {
@@ -127,7 +128,7 @@ mat-menu {
 
 .mat-card-content {
   font-size: 22px;
-  
+
 }
 
 /* refactoring */
