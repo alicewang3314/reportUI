@@ -124,7 +124,7 @@ export class HomePageComponent implements OnInit {
         this.getBugReportsData(resp);
         this.calculateCardData();
         this.getDonutChartData(resp);
-        this.calculateStackData();
+        this.calculateStackData(resp);
       });
 
     // TODO: remove local dev setup
@@ -134,7 +134,7 @@ export class HomePageComponent implements OnInit {
     // console.log("result", rawBugReport);
     // this.calculateCardData();
     // this.getDonutChartData(this.respBugApi);
-    // this.calculateStackData();
+    // this.calculateStackData(this.respBugApi);
   }
 
   selectedAreaPath: any;
@@ -195,35 +195,31 @@ export class HomePageComponent implements OnInit {
     });
   }
 
-  calculateStackData() {
-    this.bugStackCnt = [];
-    let areaSplit, areaName, areaPath, pathData;
-    let seriesData, seriesDataList, criticalDataList, highDataList, mediumDataList, lowDataList;
+  calculateStackData(bugReport: any[]) {
+    const bugsBreakdown= [];
+    const activeIssues = bugReport.filter(({ state }) => state === 'Active');
+    const issueGroupedByProject = _.groupBy(activeIssues, 'areaPath');
+    const severities = ['1 - Critical', '2 - High', '3 - Medium', '4 - Low'];
 
-    this.respBugApi.forEach(item => {
-      areaSplit = item.areaPath.split('\\');
-      areaName = areaSplit[areaSplit.length - 1];
-      areaPath = item.areaPath;
-      pathData = this.bugStackCnt.find(i => i.name === areaName);
+    for (const [project, issues] of Object.entries(issueGroupedByProject)) {
+      const issuesGroupedBySeverity = _.groupBy(issues, 'severity');
+      const series = [];
 
-      if (!pathData) {
-        seriesData = [];
-        seriesDataList = this.respBugApi.filter(o => o.areaPath === areaPath && o.state === "Active");
-        const rules = ['1 - Critical', '2 - High', '3 - Medium', '4 - Low'];
-        rules.map(rule => {
-          const fiteredData = seriesDataList.filter(data => data.severity === rule);
-          seriesData.push({
-            name: rule,
-            value: fiteredData
-          });
+      severities.forEach(severity => {
+        series.push({
+          name: severity,
+          value: issuesGroupedBySeverity[severity] && issuesGroupedBySeverity[severity].length || 0
         });
-        this.bugStackCnt.push({
-          "name": areaName,
-          "series": seriesData
-        });
-      }
-    });
-  }
+      });
+
+      bugsBreakdown.push({
+        name: project,
+        series
+      })
+    }
+
+    this.bugGrpCnt = bugsBreakdown;
+  };
 
   onBugDropdownChange(event) {
     // todo: why resign to self?
