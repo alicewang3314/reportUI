@@ -7,7 +7,8 @@ import { CacheService } from '../services/cache.service';
 import { FormControl } from '@angular/forms';
 import { BarHorizontalComponent, BaseChartComponent } from '@swimlane/ngx-charts';
 import * as _ from 'lodash';
-import { rawBugReport } from 'src/app/mock';
+//TODO: remove dev setting
+// import { rawBugReport } from 'src/app/mock';
 
 // refactoring
 import { BugReportCard } from 'src/app/types';
@@ -165,13 +166,11 @@ export class HomePageComponent implements OnInit {
   }
 
   calculateCardData() {
-    // refactoring
     const filter = (root: any, prop: string, rule: string): any[] => root.filter(i => i[prop] === rule);
 
     const total = this.respBugApi;
     const resolved = filter(total, 'state', 'Resolved');
     const active = filter(total, 'state', 'Active');
-
     Object.assign(this.totalBugs, {
       total: total.length,
       resolved: resolved.length,
@@ -188,14 +187,14 @@ export class HomePageComponent implements OnInit {
       active: filter(active, 'severity', '2 - High').length,
     });
     Object.assign(this.mediumBugs, {
+      total: filter(total, 'severity', '3 - Medium').length,
+      resolved: filter(resolved, 'severity', '3 - Medium').length,
+      active: filter(active, 'severity', '3 - Medium').length,
+    });
+    Object.assign(this.lowBugs, {
       total: filter(total, 'severity', '4 - Low').length,
       resolved: filter(resolved, 'severity', '4 - Low').length,
       active: filter(active, 'severity', '4 - Low').length,
-    });
-    Object.assign(this.highBugs, {
-      total: filter(total, 'severity', '2 - High').length,
-      resolved: filter(resolved, 'severity', '2 - High').length,
-      active: filter(active, 'severity', '2 - High').length,
     });
   }
 
