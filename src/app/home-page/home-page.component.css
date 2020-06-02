@@ -180,6 +180,7 @@ mat-menu {
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 1.2em;
   grid-auto-rows: min-content;
+  width: 100%;
 }
 
 .active-bugs {
