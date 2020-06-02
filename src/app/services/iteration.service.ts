@@ -19,7 +19,6 @@ import { APIS } from 'src/app/constants';
 export class IterationService {
   _http: HttpClient;
 
-  private baseUrl = environment.baseUrl;
   protected jsonParseReviver:
     | ((key: string, value: any) => any)
     | undefined = undefined;
@@ -29,22 +28,19 @@ export class IterationService {
   }
 
   getCurrent(data): Observable<IterationReport> {
-    //console.log(data);
-    let url_ = this.baseUrl + "/api/Iteration/Current";
-    url_ = url_.replace(/[?&]$/, "");
+    const url_ = environment.baseUrl + APIS.CURRENT_ITERATION;
 
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })
     };
-    // console.log(url_);
 
     return this._http.post<IterationReport>(url_, data, httpOptions);
   }
 
   getCurrent2(userSettings): Observable<IterationReport> {
-    let url_ = this.baseUrl + "/api/Iteration/Current2";
+    let url_ = environment.baseUrl + "/api/Iteration/Current2";
 
     //const content_ = JSON.stringify(userSettings);
     const content_ = userSettings;

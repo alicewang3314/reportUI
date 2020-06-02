@@ -10,7 +10,7 @@ export const environment = {
   // baseUrl: "http://crtecdv0111429d.pa.lcl"
   //baseLogApiUrl:"http://localhost:26839",
   baseUrl:'http://capmon.cor.state.pa.us/TFSAPI',
-  baseLogApiUrl: "",
+  baseLogApiUrl: '',
   kibanaUrl: 'http://crtecdev0108783.pa.lcl:5601',
   TFSDashBSetting: "TfsDashBProjsTeams",
 };
