@@ -118,14 +118,14 @@ export class HomePageComponent implements OnInit {
     this.iframeLiveLogSourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.getLiveDashboardSrcUrl());
     this.iframeLogSourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.getLogDashboardSrcUrl());
 
-    // this.cacheService.getBugsDashboardData().subscribe(
-    //   resp => {
-    //     this.respBugApi = resp;
-    //     this.getBugReportsData(this.respBugApi);
-    //     this.calculateCardData();
-    //     this.getDonutChartData();
-    //     this.calculateStackData();
-    //   });
+    this.cacheService.getBugsDashboardData().subscribe(
+      resp => {
+        this.respBugApi = resp;
+        this.getBugReportsData(resp);
+        this.calculateCardData();
+        this.getDonutChartData(resp);
+        this.calculateStackData();
+      });
 
     // TODO: remove local dev setup
     // this.respBugApi = rawBugReport;
