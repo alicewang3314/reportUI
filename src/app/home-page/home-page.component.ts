@@ -119,13 +119,13 @@ export class HomePageComponent implements OnInit {
     this.iframeLogSourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.getLogDashboardSrcUrl());
 
     this.cacheService.getBugsDashboardData().subscribe(
-    resp => {
-      this.respBugApi = resp;
-      this.getBugReportsData(resp);
-      this.calculateCardData();
-      this.getDonutChartData(resp);
-      this.calculateStackData(resp);
-    });
+      resp => {
+        this.respBugApi = resp;
+        this.getBugReportsData(resp);
+        this.calculateCardData(resp);
+        this.getDonutChartData(resp);
+        this.calculateStackData(resp);
+      });
 
     // TODO: remove local dev setup
     // this.respBugApi = rawBugReport;
@@ -162,10 +162,9 @@ export class HomePageComponent implements OnInit {
     this.donutData = donutData;
   }
 
-  calculateCardData() {
+  calculateCardData(total: any[]) {
     const filter = (root: any, prop: string, rule: string): any[] => root.filter(i => i[prop] === rule);
-
-    const total = this.respBugApi;
+    
     const resolved = filter(total, 'state', 'Resolved');
     const active = filter(total, 'state', 'Active');
     Object.assign(this.totalBugs, {
