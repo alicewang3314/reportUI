@@ -39,7 +39,6 @@ export class HomePageComponent implements OnInit {
   seriesData: ({ name: string, value: number }[]);
   bugStackCnt: ({ name: string, series: ({ name: string, value: number }[]) }[]);
   bugSeverityCnt: ({ name: string, series: ({ name: string, value: number }[]) }[]);
-
   view: any[] = [700, 400];
 
   //chart options
@@ -59,7 +58,7 @@ export class HomePageComponent implements OnInit {
   filteredBugDetails: any;
   selectedSeverity: any = 'all';
 
-  donutData: any;
+  donutData: any = [];
 
   donutColorScheme = {
     domain: ['#66a3ff', '#40E0D0', '#98FB98', '#4dff4d', '#C71585', '#DB7093', '#FFC0CB', '#ffd11a', '#ffe680', '#944dff', '#cc66ff', '#4B0082', '#FFA500']
@@ -119,14 +118,14 @@ export class HomePageComponent implements OnInit {
     this.iframeLiveLogSourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.getLiveDashboardSrcUrl());
     this.iframeLogSourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.getLogDashboardSrcUrl());
 
-    this.cacheService.getBugsDashboardData().subscribe(
-      resp => {
-        this.respBugApi = resp;
-        this.getBugReportsData(this.respBugApi);
-        this.calculateCardData();
-        this.getDonutChartData();
-        this.calculateStackData();
-      });
+    // this.cacheService.getBugsDashboardData().subscribe(
+    //   resp => {
+    //     this.respBugApi = resp;
+    //     this.getBugReportsData(this.respBugApi);
+    //     this.calculateCardData();
+    //     this.getDonutChartData();
+    //     this.calculateStackData();
+    //   });
 
     // TODO: remove local dev setup
     // this.respBugApi = rawBugReport;
@@ -134,7 +133,7 @@ export class HomePageComponent implements OnInit {
     // this.getBugReportsData(rawBugReport);
     // console.log("result", rawBugReport);
     // this.calculateCardData();
-    // this.getDonutChartData();
+    // this.getDonutChartData(this.respBugApi);
     // this.calculateStackData();
   }
 
@@ -148,21 +147,19 @@ export class HomePageComponent implements OnInit {
       this.filteredBugDetails = _.filter(self.respBugApi, function (o) { return o.areaPath == event.name });
   }
 
-  getDonutChartData() {
-    this.donutData = [];
-    let areaPath, pathData;
+  getDonutChartData(bugsReport: any[]) {
+    const donutData = [];
+    const activeIssues = bugsReport.filter(report => report.state === 'Active');
+    const issueGroupedByProject = _.groupBy(activeIssues, 'areaPath');
 
-    this.respBugApi.forEach((item) => {
-      areaPath = item.areaPath;
-      pathData = this.donutData.find(i => i.name === areaPath);
+    for (const [project, issues] of Object.entries(issueGroupedByProject)) {
+      project && donutData.push({
+        name: project,
+        value: issues.length
+      })
+    }
 
-      if (!pathData) {
-        this.donutData.push({
-          "name": areaPath,
-          "value": this.respBugApi.filter(i => i.areaPath === areaPath && i.start === 'Actice').length
-        });
-      }
-    });
+    this.donutData = donutData;
   }
 
   calculateCardData() {
