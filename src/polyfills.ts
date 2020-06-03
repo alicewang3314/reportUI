@@ -27,21 +27,21 @@ import 'classlist.js';  // Run `npm install --save classlist.js`.
  * Standard animation support in Angular DOES NOT require any polyfills (as of Angular 6.0).
  */
  import 'web-animations-js';  // Run `npm install --save web-animations-js`.
-
-import 'core-js/features/symbol';
-import 'core-js/features/object';
-import 'core-js/features/function';
-import 'core-js/features/parse-int';
-import 'core-js/features/parse-float';
-import 'core-js/features/number';
-import 'core-js/features/math';
-import 'core-js/features/string';
-import 'core-js/features/date';
-import 'core-js/features/array';
-import 'core-js/features/regexp';
-import 'core-js/features/map';
-import 'core-js/features/weak-map';
-import 'core-js/features/set';
+ import 'core-js';
+// import 'core-js/features/symbol';
+// import 'core-js/features/object';
+// import 'core-js/features/function';
+// import 'core-js/features/parse-int';
+// import 'core-js/features/parse-float';
+// import 'core-js/features/number';
+// import 'core-js/features/math';
+// import 'core-js/features/string';
+// import 'core-js/features/date';
+// import 'core-js/features/array';
+// import 'core-js/features/regexp';
+// import 'core-js/features/map';
+// import 'core-js/features/weak-map';
+// import 'core-js/features/set';
  
  //import "core-js/es7/array";
  //import "core-js/es7/object";

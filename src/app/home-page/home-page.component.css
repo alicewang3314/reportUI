@@ -108,7 +108,7 @@ mat-menu {
 }
 
 .mat-table>thead {
-  background-color:#272727e8 ;
+  background-color: #272727e8;
 }
 
 .mat-total {
@@ -176,10 +176,6 @@ mat-menu {
   flex-direction: row;
   flex-wrap: nowrap;
   height: fit-content;
-  /* grid-template-columns: repeat(2, 1fr);
-  grid-gap: 1.2em; */
-  /* grid-auto-rows: min-content; */
-  /* width: 100%; */
 }
 
 .bugs-details {
