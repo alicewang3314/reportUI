@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
 import { BarHorizontalComponent, BaseChartComponent } from '@swimlane/ngx-charts';
 import * as _ from 'lodash';
 //TODO: remove dev setting
-import { rawBugReport } from 'src/app/mock';
+// import { rawBugReport } from 'src/app/mock';
 
 // refactoring
 import { BugReportCard } from 'src/app/types';
@@ -128,11 +128,11 @@ export class HomePageComponent implements OnInit {
       });
 
     // TODO: remove local dev setup
-    this.respBugApi = rawBugReport;
-    this.getBugReportsData(rawBugReport);
-    this.calculateCardData(rawBugReport);
-    this.getDonutChartData(rawBugReport);
-    this.calculateStackData(rawBugReport);
+    // this.respBugApi = rawBugReport;
+    // this.getBugReportsData(rawBugReport);
+    // this.calculateCardData(rawBugReport);
+    // this.getDonutChartData(rawBugReport);
+    // this.calculateStackData(rawBugReport);
   }
 
   selectedAreaPath: any;
