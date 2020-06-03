@@ -65,20 +65,6 @@ mat-menu {
   background-color: #212121;
 }
 
-/* .donut-chart {
-  display: flex;
-  width: 650px;
-  min-height: min-content;
-  fill: white;
-  background-color: #212121;
-  margin: auto;
-  padding-top: 15px;
-} */
-
-/* .donut-chart .advanced-pie-legend .legend-items-container .legend-items .legend-item:hover {
-  color: lightcyan;
-} */
-
 .evenRow {
   background-color: #303030;
 }
@@ -113,7 +99,16 @@ mat-menu {
 
 .mat-table-div {
   overflow-y: scroll !important;
-  height: 380px !important;
+  height: 320px !important;
+}
+
+.mat-table {
+  background: #27272700;
+  width: 100%;
+}
+
+.mat-table>thead {
+  background-color:#272727e8 ;
 }
 
 .mat-total {
@@ -187,22 +182,16 @@ mat-menu {
   /* width: 100%; */
 }
 
-.active-bugs, .bugs-details {
-  flex: 1 1 50%;
+.bugs-details {
+  flex: 1 1 65%;
 }
 
- /* {
-  flex: 1 1 50%;
-} */
+.active-bugs>mat-card-content {
+  padding: 45px 0 30px;
+}
 
-/* .bugs-detail {
-  grid-column: 2;
-  grid-row: 1;
-} */
-
-/* todo: rename */
-.mat-table {
-  width: 100%;
+.bugs-details>mat-card-content {
+  padding: 20px 0;
 }
 
 .home-container {

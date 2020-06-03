@@ -36,13 +36,13 @@
           <!-- TODO: REVIEW-->
           <!-- <mat-card class="custom-mat-card medium"> -->
           <mat-card class="lower-wrapper">
-            <div>
+            <div class="active-bugs">
               <mat-card-header>
                 <mat-card-title class="card-title">Total Active Bugs</mat-card-title>
               </mat-card-header>
               <mat-divider></mat-divider>
               <mat-card-content>
-                <div class="donut-chart">
+                <div>
                   <ngx-charts-pie-chart #chart1 [tooltipDisabled]="false" [view]="[620,400]" [scheme]="donutColorScheme"
                     [results]="donutData" arcWidth="0.6" doughnut="true" (select)="reloadBugDetails($event)"
                     [legend]="false" [legendPosition]="'right'" [labels]="false">
@@ -50,8 +50,6 @@
                 </div>
               </mat-card-content>
             </div>
-
-
             <!-- </mat-card> -->
             <!-- TODO: REVIEW -->
             <!-- <mat-card class="bugs-details"> -->
@@ -94,8 +92,8 @@
                       <th mat-header-cell class="table-col" *matHeaderCellDef> Assigned Date </th>
                       <td mat-cell class="table-col" *matCellDef="let element"> {{element.createdDate}} </td>
                     </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.mat-elevation-z2]="true"></tr>
                   </table>
                 </div>
               </mat-card-content>
