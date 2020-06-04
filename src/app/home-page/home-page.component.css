@@ -162,6 +162,10 @@ mat-menu {
   padding: 45px 0 30px;
 }
 
+.active-bugs .ngx-charts {
+  margin-right: minmax(30px, auto);
+}
+
 .bugs-details>mat-card-content {
   padding: 20px 0;
 }
@@ -200,7 +204,8 @@ mat-menu {
   flex: 1 1 0;
 }
 
-.card-low, card-medium {
+.card-low,
+card-medium {
   display: block;
   width: 100%;
 }
