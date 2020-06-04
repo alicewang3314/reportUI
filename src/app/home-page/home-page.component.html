@@ -44,12 +44,10 @@
               </mat-card-header>
               <mat-divider></mat-divider>
               <mat-card-content>
-                <div>
-                  <ngx-charts-pie-chart #chart1 [tooltipDisabled]="false" [view]="[620,400]" [scheme]="donutColorScheme"
-                    [results]="donutData" arcWidth="0.6" doughnut="true" (select)="reloadBugDetails($event)"
-                    [legend]="false" [legendPosition]="'right'" [labels]="false">
-                  </ngx-charts-pie-chart>
-                </div>
+                <ngx-charts-pie-chart #chart1 [tooltipDisabled]="false" [view]="[400,400]" [scheme]="donutColorScheme"
+                  [results]="donutData" arcWidth="0.6" doughnut="true" (select)="reloadBugDetails($event)"
+                  [legend]="false" [legendPosition]="'right'" [labels]="false">
+                </ngx-charts-pie-chart>
               </mat-card-content>
             </div>
             <div class="bugs-details">
