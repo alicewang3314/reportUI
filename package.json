@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start":"ng serve",
-    "dev": "ng serve --configuration es5",
+    "start": "ng serve",
+    "dev": "http-server dist/tfs-reports",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -42,6 +42,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
+    "http-server": "^0.12.3",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
