@@ -8,13 +8,13 @@
             <mat-icon>refresh</mat-icon>
           </button>
         </div>
-
-
         <div class="tab-body-wrapper">
-          <div class='wrapper'>
+          <div class="top-wrapper">
             <bug-card class='card-total' [data]="totalBugs"></bug-card>
             <bug-card class='card-critical' [data]="criticalBugs"></bug-card>
             <bug-card class='card-high' [data]="highBugs"></bug-card>
+          </div>
+          <div class="middle-wrapper">
             <mat-card class='custom-mat-card large card-breakdown'>
               <mat-card-header>
                 <mat-card-title class="card-title">Bugs Breakdown</mat-card-title>
@@ -30,11 +30,13 @@
                 </div>
               </mat-card-content>
             </mat-card>
-            <bug-card class='card-medium' [data]="mediumBugs"></bug-card>
-            <bug-card class='card-low' [data]="lowBugs"></bug-card>
+            <div class="middle-wrapper_inner-wrapper">
+              <bug-card class='card-medium' [data]="mediumBugs"></bug-card>
+              <bug-card class='card-low' [data]="lowBugs"></bug-card>
+            </div>
           </div>
+          <!-- </div> -->
           <!-- TODO: REVIEW-->
-          <!-- <mat-card class="custom-mat-card medium"> -->
           <mat-card class="lower-wrapper">
             <div class="active-bugs">
               <mat-card-header>
@@ -50,9 +52,6 @@
                 </div>
               </mat-card-content>
             </div>
-            <!-- </mat-card> -->
-            <!-- TODO: REVIEW -->
-            <!-- <mat-card class="bugs-details"> -->
             <div class="bugs-details">
               <mat-card-header>
                 <mat-card-title class="card-title">Bugs Details</mat-card-title>
