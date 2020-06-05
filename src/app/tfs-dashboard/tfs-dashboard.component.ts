@@ -21,6 +21,8 @@ import { Settings } from 'src/app/types';
 export class TfsDashboardComponent implements OnInit, OnChanges {
   //iterationService: IterationService;
   iterationReport: IterationReport;
+  // TODO: remove dev config
+  // iterationReport: any;
   allPendingReport: IterationReport;
   showSpinner: boolean = false;
   selectedTabIndex = new FormControl(0);
@@ -58,9 +60,9 @@ export class TfsDashboardComponent implements OnInit, OnChanges {
         //  console.log(user);
         this.cacheService.getIterationReport(user).subscribe(resp => {
           this.iterationReport = resp;
-          //console.log(resp);
 
           if (this.iterationReport.teams.length > 0) {
+
             if (user.length != this.iterationReport.teams.length) {
               user.map((item) => {
                 this.checkedValues.push(item.value);
@@ -68,8 +70,6 @@ export class TfsDashboardComponent implements OnInit, OnChanges {
               this.iterationReport.teams.map((item) => {
                 this.apiValues.push(item.title)
               });
-              //   console.log(this.checkedValues);
-              //    console.log(this.missingValues);
               this.missingValues = this.checkedValues.filter(item => this.apiValues.indexOf(item) < 0);
               this.cacheService.missingValue = this.missingValues;
               this.checkedValues = [];

@@ -45,7 +45,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 // import { LogDashboardComponent } from './log-dashboard/log-dashboard.component';
 
-import { BugReportCard, LoaderComponent, BugDetailsDialog } from './components';
+import { BugReportCard, BugDetailsDialog, LoaderComponent,TFSReportCard } from './components';
 
 @NgModule({
 
@@ -61,10 +61,11 @@ import { BugReportCard, LoaderComponent, BugDetailsDialog } from './components';
     FilterPipe,
     TfsDashboardHomeComponent,
     TfsDashboardSettingsComponent,
+    //TODO: refactoring clean up
     LogDashboardComponent,
     BugDetailsDialog,
-    //LogDashboardComponent
     BugReportCard,
+    TFSReportCard,
   ],
   imports: [
     BrowserModule,
