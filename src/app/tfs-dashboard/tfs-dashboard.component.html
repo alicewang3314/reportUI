@@ -40,37 +40,26 @@
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <div class="statsLayout">
-                <div class="statsCol">
-                  <div>
-                    <span class="statsLabel">Active Tasks </span>&nbsp;
-                    <span>{{ team.currentStats.activeTasks }}</span>
-                  </div>
-                  <div>
-                    <span class="statsLabel">New Tasks </span>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span>{{ team.currentStats.newTasks }}</span>
-                  </div>
-                </div>
-                <div class="statsCol">
-                  <div>
-                    <span class="statsLabel">Original Estimate </span>&nbsp;
-                    <span class="statsOrigValue">{{
-                      team.currentStats.originalEstimate | number: "1.1-2"
-                    }}</span>
-                  </div>
-                  <div>
-                    <span class="statsLabel">Completed Work </span>&nbsp;&nbsp;
-                    <span class="statsComplValue">{{
-                      team.currentStats.completedWork | number: "1.1-2"
-                    }}</span>
-                  </div>
-                  <div>
-                    <span class="statsLabel">Remaining Work </span>&nbsp;&nbsp;
-                    <span class="statsRemValue">{{
-                      team.currentStats.remainingWork | number: "1.1-2"
-                    }}</span>
-                  </div>
-                </div>
+              <div class="report-entry">
+                <span class="report-label">Active Tasks </span>{{ team.currentStats.activeTasks }}
+              </div>
+              <div class="report-entry">
+                <span class="report-label">New Tasks </span> {{ team.currentStats.newTasks }}
+              </div>
+
+              <hr />
+
+              <div class="report-entry">
+                <span class="report-label">Original Estimate </span>
+                <span class="statsOrigValue">{{team.currentStats.originalEstimate | number: "1.1-2"}}</span>
+              </div>
+              <div class="report-entry">
+                <span class=" report-label">Completed Work </span>
+                <span class="statsComplValue">{{team.currentStats.completedWork | number: "1.1-2"}}</span>
+              </div>
+              <div class="report-entry">
+                <span class="report-label">Remaining Work </span>
+                <span class="statsRemValue">{{team.currentStats.remainingWork | number: "1.1-2"}}</span>
               </div>
             </mat-card-content>
             <!-- <mat-dialog-content
@@ -123,37 +112,33 @@
             <mat-card-header>
               <mat-card-title>{{ team.title }}</mat-card-title>
             </mat-card-header>
-            <mat-card-content>
+            <mat-card-content class="card-content">
               <div class="statsLayout">
-                <div class="statsCol">
-                  <div>
-                    <span class="statsLabel">Active Tasks </span>&nbsp;
-                    <span>{{ team.currentStats.activeTasks }}</span>
-                  </div>
-                  <div>
-                    <span class="statsLabel">New Tasks </span>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span>{{ team.currentStats.newTasks }}</span>
-                  </div>
+                <div>
+                  <span class="report-label">Active Tasks</span> {{ team.currentStats.activeTasks }}
                 </div>
-                <div class="statsCol">
-                  <div>
-                    <span class="statsLabel">Original Estimate </span>&nbsp;
-                    <span class="statsOrigValue">{{
-                      team.currentStats.originalEstimate | number: "1.1-2"
-                    }}</span>
-                  </div>
-                  <div>
-                    <span class="statsLabel">Completed Work </span>&nbsp;&nbsp;
-                    <span class="statsComplValue">{{
-                      team.currentStats.completedWork | number: "1.1-2"
-                    }}</span>
-                  </div>
-                  <div>
-                    <span class="statsLabel">Remaining Work </span>&nbsp;&nbsp;
-                    <span class="statsRemValue">{{
-                      team.currentStats.remainingWork | number: "1.1-2"
-                    }}</span>
-                  </div>
+
+                <div>
+                  <span class="report-label">New Tasks</span> {{ team.currentStats.newTasks }}
+                </div>
+
+                <div>
+                  <span class="report-label">Original Estimate</span>
+                  {{
+                    team.currentStats.originalEstimate | number: "1.1-2"
+                  }}
+                </div>
+                <div>
+                  <span class="report-label">Completed Work</span>
+                  {{
+                    team.currentStats.completedWork | number: "1.1-2"
+                  }}
+                </div>
+                <div>
+                  <span class="report-label">Remaining Work</span>
+                  {{
+                    team.currentStats.remainingWork | number: "1.1-2"
+                  }}
                 </div>
               </div>
             </mat-card-content>
@@ -171,9 +156,7 @@
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <div class="statsLayout">
-                No data
-              </div>
+              No data
             </mat-card-content>
           </mat-card>
 

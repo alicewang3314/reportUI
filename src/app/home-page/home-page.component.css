@@ -83,8 +83,8 @@ mat-menu {
 }
 
 .mat-tab-body-content {
-  width: 97%;
-  margin: auto;
+  width: unset;
+  height: unset;
 }
 
 .buttonPlaceholder {
@@ -162,9 +162,9 @@ mat-menu {
   padding: 45px 0 30px;
 }
 
-.active-bugs .ngx-charts {
+/* .active-bugs .ngx-charts {
   margin-right: minmax(30px, auto);
-}
+} */
 
 .bugs-details>mat-card-content {
   padding: 20px 0;

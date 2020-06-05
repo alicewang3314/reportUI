@@ -10,6 +10,9 @@ import { SettingService } from '../services/setting.service';
 import { Settings } from 'src/app/types';
 //import { userInfo } from "os";
 
+//TODO: cleanup dev support
+// import { iterationReport as report } from 'src/app/mock';
+
 @Component({
   selector: "app-tfs-dashboard",
   templateUrl: "./tfs-dashboard.component.html",
@@ -41,18 +44,9 @@ export class TfsDashboardComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-
-    // this.settingService.getProjectsTeamsFromDb().subscribe(
-    //   s => {
-    //   this.userSettings = s
-    //     this.iterationService.getCurrent2(this.userSettings.tfsProjTeams).subscribe(
-    //       resp => this.iterationReport = resp
-    //     );
-    //   }
-
-    // );
-
     this.getProjectDashboard();
+    //TODO: remove dev setup
+    // this.iterationReport = report;
   }
 
   getProjectDashboardOld() {
@@ -113,28 +107,29 @@ export class TfsDashboardComponent implements OnInit, OnChanges {
       this.settingService.getProjectsTeamsFromDb().subscribe(
         s => {
           this.userSettings = s
-          if (this.userSettings && this.userSettings.tfsProjTeams) {
 
+          if (this.userSettings && this.userSettings.tfsProjTeams) {
             this.cacheService.getIterationReport(this.userSettings.tfsProjTeams).subscribe(
               resp => this.iterationReport = resp
             );
           }
         }
       );
-    }
-    else {
-      this.settingService.getProjectsTeamsFromDb().subscribe(
-        s => {
-          this.userSettings = s
-          if (this.userSettings && this.userSettings.tfsProjTeams) {
-            this.cacheService.getAllPendingReport(this.userSettings.tfsProjTeams).subscribe(
-              resp => this.allPendingReport = resp
-            );
-          }
-        }
-      );
 
+      return;
     }
+
+    this.settingService.getProjectsTeamsFromDb().subscribe(
+      s => {
+        this.userSettings = s
+
+        if (this.userSettings && this.userSettings.tfsProjTeams) {
+          this.cacheService.getAllPendingReport(this.userSettings.tfsProjTeams).subscribe(
+            resp => this.allPendingReport = resp
+          );
+        }
+      }
+    );
   }
 
   BacktoList() {
