@@ -107,39 +107,28 @@
     <div class="main">
       <ng-container *ngIf="allPendingReport">
         <div class="items" *ngFor="let team of allPendingReport.teams">
-
           <mat-card *ngIf="team.currentStats && team.currentTasks">
             <mat-card-header>
               <mat-card-title>{{ team.title }}</mat-card-title>
             </mat-card-header>
-            <mat-card-content class="card-content">
-              <div class="statsLayout">
-                <div>
-                  <span class="report-label">Active Tasks</span> {{ team.currentStats.activeTasks }}
-                </div>
-
-                <div>
-                  <span class="report-label">New Tasks</span> {{ team.currentStats.newTasks }}
-                </div>
-
-                <div>
-                  <span class="report-label">Original Estimate</span>
-                  {{
-                    team.currentStats.originalEstimate | number: "1.1-2"
-                  }}
-                </div>
-                <div>
-                  <span class="report-label">Completed Work</span>
-                  {{
-                    team.currentStats.completedWork | number: "1.1-2"
-                  }}
-                </div>
-                <div>
-                  <span class="report-label">Remaining Work</span>
-                  {{
-                    team.currentStats.remainingWork | number: "1.1-2"
-                  }}
-                </div>
+            <mat-card-content>
+              <div>
+                <span class="report-label">Active Tasks</span> {{ team.currentStats.activeTasks }}
+              </div>
+              <div>
+                <span class="report-label">New Tasks</span> {{ team.currentStats.newTasks }}
+              </div>
+              <div>
+                <span class="report-label">Original Estimate</span>
+                <span class="statsOrigValue">{{team.currentStats.originalEstimate | number: "1.1-2"}}</span>
+              </div>
+              <div>
+                <span class="report-label">Completed Work</span>
+                <span class="statsComplValue">{{team.currentStats.completedWork | number: "1.1-2"}}</span>
+              </div>
+              <div>
+                <span class="report-label">Remaining Work</span>
+                <span class="statsRemValue">{{team.currentStats.remainingWork | number: "1.1-2"}}</span>
               </div>
             </mat-card-content>
             <mat-card-actions>
@@ -156,7 +145,7 @@
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              No data
+              <div class="statsLayout">No data</div>
             </mat-card-content>
           </mat-card>
 
