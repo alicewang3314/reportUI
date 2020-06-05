@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "dev": "http-server dist/tfs-reports",
+    "host": "http-server dist/tfs-reports",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
